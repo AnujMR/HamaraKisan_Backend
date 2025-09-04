@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-
+from webscrapper import getTableData
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -28,6 +28,12 @@ def get_users():
     users = db.collection("users").stream()
     result = [{**doc.to_dict(), "id": doc.id} for doc in users]
     return jsonify(result)
+
+# Example: Read data
+@app.route("/getTableData")
+def getData():
+    data = getTableData()
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(debug=True)
