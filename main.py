@@ -15,12 +15,34 @@ db = firestore.client()
 def home():
     return "Flask connected with Firebase ✅"
 
-# Example: Add data to Firestore
-@app.route("/add_user", methods=["POST"])
-def add_user():
-    data = request.json
-    doc_ref = db.collection("users").add(data)
-    return jsonify({"success": True, "id": doc_ref[1].id})
+# # Example: Add data to Firestore
+# @app.route("/add_user", methods=["POST"])
+# def add_user():
+#     data = request.json
+#     doc_ref = db.collection("users").add(data)
+#     return jsonify({"success": True, "id": doc_ref[1].id})
+
+
+# Authentication
+@app.route("/googleAuth",methods=["post"])
+def authentication():
+    try:
+        id_token=request.json.get("token")
+        decoded_token=auth.verify_id_token(id_token)
+        uid=decoded_token["uid"]
+        email=decoded_token.get("email")
+        name=decoded_token.get("name")
+        picture=decoded_token.get("picture")
+        return jsonify({
+            "message":"User Verified",
+            "uid":uid,
+            "email":email,
+            "name":name,
+            "picture":picture
+        })
+    except Exception as e:
+        return jsonify({"error":str(e)}),401
+    
 
 # Example: Read data
 @app.route("/users")
