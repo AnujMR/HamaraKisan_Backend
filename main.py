@@ -15,47 +15,84 @@ db = firestore.client()
 def home():
     return "Flask connected with Firebase ✅"
 
-# # Example: Add data to Firestore
-# @app.route("/add_user", methods=["POST"])
-# def add_user():
-#     data = request.json
-#     doc_ref = db.collection("users").add(data)
-#     return jsonify({"success": True, "id": doc_ref[1].id})
-
-
 # Authentication
 @app.route("/googleAuth",methods=["post"])
 def authentication():
     try:
         id_token=request.json.get("token")
-        decoded_token=auth.verify_id_token(id_token)
+        decoded_token=auth.verify_id_token(id_token) 
         uid=decoded_token["uid"]
         email=decoded_token.get("email")
         name=decoded_token.get("name")
         picture=decoded_token.get("picture")
-        return jsonify({
-            "message":"User Verified",
-            "uid":uid,
-            "email":email,
-            "name":name,
-            "picture":picture
-        })
+        try:
+            doc_ref=db.collection('users').document(uid)
+            doc = doc_ref.get() 
+            if not doc.exists:
+                userData={
+                    "message":"User Verified",
+                    "email":email,
+                    "name":name,
+                    "id":uid,
+                    "picture":picture,
+                    "phone":"",
+                    "pinnedMandis":[],
+                    "state":"",
+                    "district":"",
+                    "interestedCom":[],
+                }
+                doc_ref =db.collection('users').add(userData)
+
+            doc_ref=db.collection('users').document(uid)
+            doc=doc_ref.get()
+            data=doc.to_dict()
+            newData={
+                "message":"User Verified",
+                "district":data["district"],
+                "email":email,
+                "interestedCom":data["interestedCom"],
+                "name":data["name"],
+                "phone":data["phone"],
+                "pinnedMandis":data["pinnedMandis"],
+                "state":data["state"],
+                "id":data["uid"],
+                "picture":data["picture"],
+            }
+            return jsonify(newData)
+        except Exception as e:
+            return jsonify({"error":str(e)}),401
     except Exception as e:
         return jsonify({"error":str(e)}),401
     
-
-# Example: Read data
-@app.route("/users")
-def get_users():
-    users = db.collection("users").stream()
-    result = [{**doc.to_dict(), "id": doc.id} for doc in users]
-    return jsonify(result)
-
-# Example: Read data
-@app.route("/getTableData")
+#update the user data
+@app.route("/userUpdate/<user_id>",methods=["post"])
+def updateData(user_id):
+    try:
+        data=request.get_json()
+        doc_ref = db.collection('users').document(user_id)
+        doc_ref.update({
+            "name":data["name"],
+            "district":data["district"],
+            "interestedCom":data["interestedCom"],
+            "phone":data["phone"],
+            "pinnedMandis":data["pinnedMandis"],
+            "state":data["state"],
+        })
+        return jsonify({"success": True, "message": "User data updated successfully!"})
+    except Exception as e:
+        return jsonify({"error":str(e)}),500
+    
+# get table data
+@app.route("/getTableData",methods=["post"])
 def getData():
-    data = getTableData()
-    return jsonify(data)
+    data=request.get_json()
+    state=data["state"]
+    district = data["district"]
+    commodity_name=data["commodity_name"]
+    startDate=data["startDate"]
+    endDate=data["endDate"]
+    table_data = getTableData(state,district,commodity_name,startDate,endDate)
+    return jsonify(table_data)
 
 if __name__ == "__main__":
     app.run(debug=True)
