@@ -23,12 +23,16 @@ def getTableData(state,district,commodity_name,startDate,endData):
 
     # The data table is usually inside <table id="cphBody_GridView1"> on this site
     table = soup.find("table", {"class": "tableagmark_new"})
+    market_ids_element = soup.find("select", {"id": "ddlMarket"})
+    market_ids = {opt.text.strip(): opt["value"] for opt in market_ids_element.find_all("option") if opt["value"] != "0"}
+    print(market_ids)
+
     # print(table)
     if table:
         rows = table.find_all("tr")[1:]  # skip header row
         for row in rows:
             cols = [col.get_text(strip=True) for col in row.find_all("td")]
-            print(cols)
+            # print(cols)
             if len(cols) >= 7 and cols[0] != '-':
                 entry = {
                     "market_name": cols[2],
@@ -48,4 +52,4 @@ def getTableData(state,district,commodity_name,startDate,endData):
     arr=[]
     for item in data:
         arr.append(item)
-    return {"data" : arr}
+    return {"data" : arr, "market_ids": market_ids}

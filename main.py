@@ -11,6 +11,8 @@ firebase_admin.initialize_app(cred)
 # Example: Connect to Firestore
 db = firestore.client()
 
+current_markets = {}
+
 @app.route("/")
 def home():
     return "Flask connected with Firebase ✅"
@@ -92,6 +94,7 @@ def getData():
     startDate=data["startDate"]
     endDate=data["endDate"]
     table_data = getTableData(state,district,commodity_name,startDate,endDate)
+    current_markets = table_data["market_ids"]
     return jsonify(table_data)
 
 if __name__ == "__main__":
