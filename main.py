@@ -104,7 +104,7 @@ def pin_mandi(user_id):
     data=request.get_json()
     doc_ref=db.collection("users").document(user_id)
     mandi_id=current_markets[data["market_name"]]
-    pinnedMandis=doc_ref.get().to_dictdict()["pinnedMandis"].append(mandi_id)
+    pinnedMandis=doc_ref.get().to_dictdict()["pinnedMandis"].append({"state":data["state"],"district":data["district"],"id":mandi_id})
     print(pinnedMandis)
     doc_ref.update({
         "pinnedMandis":pinnedMandis
