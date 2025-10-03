@@ -15,6 +15,7 @@ current_markets = {}
 
 @app.route("/")
 def home():
+    print({"Khargone":30})
     return "Flask connected with Firebase ✅"
 
 # Authentication
@@ -95,7 +96,24 @@ def getData():
     endDate=data["endDate"]
     table_data = getTableData(state,district,commodity_name,startDate,endDate)
     current_markets = table_data["market_ids"]
-    return jsonify(table_data)
+    return jsonify(table_data["data"])
+
+# pin a mandi
+@app.route("/pin_mandi/<user_id>",methods=["post"])
+def pin_mandi(user_id):
+    data=request.get_json()
+    doc_ref=db.collection("users").document(user_id)
+    mandi_id=current_markets[data["market_name"]]
+    pinnedMandis=doc_ref.get().to_dictdict()["pinnedMandis"].append(mandi_id)
+    print(pinnedMandis)
+    doc_ref.update({
+        "pinnedMandis":pinnedMandis
+    })
+# get all the pinned mandis
+@app.route("/getPinnednMadis/<user_id>",methods=["get"])
+def getpinnedmandis(user_id):
+    doc_ref=db.collection("users").document(user_id)
+    return doc_ref.get().to_dict()["pinnedMandis"]
 
 if __name__ == "__main__":
     app.run(debug=True)
