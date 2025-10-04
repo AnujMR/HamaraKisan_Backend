@@ -50,13 +50,13 @@ def getTableData(state,district,commodity_name,startDate,endDate):
     return {"data":data,"market_ids":market_ids}
 
 def getData(state,district,market_id,intCom,startDate,endDate):
-    
+
     data=[]
     stateCode=state_map[state]
     districtCode = districts[stateCode][district]
     for comm in intCom:
         com_id = commodity_map[comm]
-        url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market="+market_id+"&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ comm +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
+        url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market="+str(market_id)+"&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ comm +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"

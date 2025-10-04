@@ -87,7 +87,7 @@ def updateData(user_id):
     
 # get table data
 @app.route("/getTableData",methods=["post"])
-def getData():
+def gettableData():
     data=request.get_json()
     state=data["state"]
     district = data["district"]
@@ -125,10 +125,12 @@ def getdataframe(userid):
     market_id=data["marketid"]
     doc_ref=db.collection("users").document(userid)
     intCom=doc_ref.get().to_dict()["interestedCom"]
+    print(intCom)
     startDate=data["startDate"]
     endDate=data["endDate"]
     res=getData(state,district,market_id,intCom,startDate,endDate)
     print(res)
+    return res
 
 if __name__ == "__main__":
     app.run(debug=True)
