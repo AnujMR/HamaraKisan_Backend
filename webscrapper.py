@@ -4,13 +4,13 @@ from pprint import pprint
 from flask import jsonify
 from store import commodity_map, state_map, districts
 
-def getTableData(state,district,commodity_name,startDate,endData):
+def getTableData(state,district,commodity_name,startDate,endDate):
 
     stateCode=state_map[state]
     districtCode = districts[stateCode][district]
     com_id = commodity_map[commodity_name]
 
-    url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market=0&DateFrom=" + startDate + "&DateTo="+endData+"&Fr_Date="+startDate+"&To_Date="+endData+"&Tx_Trend=0&Tx_CommodityHead="+ commodity_name +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
+    url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market=0&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ commodity_name +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
@@ -48,3 +48,40 @@ def getTableData(state,district,commodity_name,startDate,endData):
                 }
                 data.append(entry)
     return {"data":data,"market_ids":market_ids}
+
+def getData(state,district,market_id,intCom,startDate,endDate):
+    
+    data=[]
+    stateCode=state_map[state]
+    districtCode = districts[stateCode][district]
+    for comm in intCom:
+        com_id = commodity_map[comm]
+        url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market="+market_id+"&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ comm +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+        }
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.text, "html.parser")
+        tabledata = []
+        table = soup.find("table", {"class": "tableagmark_new"})
+        if table:
+            rows = table.find_all("tr")[1:]  
+            for row in rows:
+                cols = [col.get_text(strip=True) for col in row.find_all("td")]
+                if len(cols) >= 7 and cols[0] != '-':
+                    entry = {
+                        "market_name": cols[2],
+                        "district": cols[1],
+                        "state": state,
+                        "commodity": comm,
+                        "grade": cols[5],
+                        "min_price": int(cols[6]),
+                        "max_price": int(cols[7]),
+                        "modal_price": int(cols[8]),
+                        "date": cols[9],
+                        "variety":cols[4]
+                    }
+                    tabledata.append(entry)
+        data.append(tabledata)
+    return data

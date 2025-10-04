@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-from webscrapper import getTableData
+from webscrapper import getTableData,getData
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -104,7 +104,7 @@ def pin_mandi(user_id):
     data=request.get_json()
     doc_ref=db.collection("users").document(user_id)
     mandi_id=current_markets[data["market_name"]]
-    pinnedMandis=doc_ref.get().to_dictdict()["pinnedMandis"].append({"state":data["state"],"district":data["district"],"id":mandi_id})
+    pinnedMandis=doc_ref.get().to_dict()["pinnedMandis"].append({"state":data["state"],"district":data["district"],"id":mandi_id})
     print(pinnedMandis)
     doc_ref.update({
         "pinnedMandis":pinnedMandis
@@ -116,12 +116,19 @@ def getpinnedmandis(user_id):
     doc_ref=db.collection("users").document(user_id)
     return doc_ref.get().to_dict()["pinnedMandis"] 
 
-@app.route("/getdataframe",methods=["post"])
-def getdataframe():
+# to get commodity info for a specific mandi
+@app.route("/getdataframe/<userid>",methods=["post"])
+def getdataframe(userid):
     data=request.get_json()
     state=data["state"]
     district=data["district"]
-    market=data["markned"]
+    market_id=data["marketid"]
+    doc_ref=db.collection("users").document(userid)
+    intCom=doc_ref.get().to_dict()["interestedCom"]
+    startDate=data["startDate"]
+    endDate=data["endDate"]
+    res=getData(state,district,market_id,intCom,startDate,endDate)
+    print(res)
 
 if __name__ == "__main__":
     app.run(debug=True)
