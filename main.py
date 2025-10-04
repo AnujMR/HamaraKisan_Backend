@@ -109,11 +109,19 @@ def pin_mandi(user_id):
     doc_ref.update({
         "pinnedMandis":pinnedMandis
     })
+
 # get all the pinned mandis
 @app.route("/getPinnednMadis/<user_id>",methods=["get"])
 def getpinnedmandis(user_id):
     doc_ref=db.collection("users").document(user_id)
-    return doc_ref.get().to_dict()["pinnedMandis"]
+    return doc_ref.get().to_dict()["pinnedMandis"] 
+
+@app.route("/getdataframe",methods=["post"])
+def getdataframe():
+    data=request.get_json()
+    state=data["state"]
+    district=data["district"]
+    market=data["markned"]
 
 if __name__ == "__main__":
     app.run(debug=True)

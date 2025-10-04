@@ -1244,3 +1244,24 @@ districts["WB"] = {
     "Sounth 24 Parganas": 15,
     "Uttar Dinajpur": 14
 }
+districts["MZ"]={
+    "Aizawl": 1,
+    "Kolasib": 5,
+    "Lungli": 2,
+    "Mamit": 4,
+    "Saiha": 3
+}
+districts["NG"]={
+    "Dimapur": 8,
+    "Kiphire": 11,
+    "Kohima": 1,
+    "Longleng": 10,
+    "Mokokchung": 3,
+    "Mon": 4,
+    "Peren": 9,
+    "Phek": 2,
+    "Tsemenyu": 12,
+    "Tuensang": 5,
+    "Wokha": 6,
+    "Zunheboto": 7
+}

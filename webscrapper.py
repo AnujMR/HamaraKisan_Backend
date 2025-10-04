@@ -48,8 +48,3 @@ def getTableData(state,district,commodity_name,startDate,endData):
                 }
                 data.append(entry)
     return {"data":data,"market_ids":market_ids}
-
-    # # print scraped data
-    # arr=[]
-    # for item in data:
-    #     arr.append(item)
