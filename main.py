@@ -1,7 +1,18 @@
+import pickle
+from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
 from webscrapper import getTableData,getData
+import numpy as np
+import tensorflow as tf
+
+model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
+
+# Load class names
+with open("class_names.pkl", "rb") as f:
+    class_names = pickle.load(f)
+
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -131,6 +142,30 @@ def getdataframe(userid):
     res=getData(state,district,market_id,intCom,startDate,endDate)
     print(res)
     return res
+
+def preprocess_image(img_path):
+    # Open image
+    image = Image.open(img_path).convert("RGB")
+
+    # Resize to 160x160 (as required by your model)
+    image = image.resize((160, 160))
+
+    # Convert to numpy array
+    img_array = np.array(image)
+
+    # Add batch dimension
+    img_array = np.expand_dims(img_array, axis=0)
+
+    return img_array
+
+@app.route("/predict_disease",methods=["get"])
+def predict_disease():
+    # prediction = model.predict([request.json.get("data")])
+    pred = model.predict(preprocess_image('leaf4 .png'))
+    predicted_class = np.argmax(pred[0])
+    disease_name = class_names[predicted_class]
+    print(disease_name)
+    return f"Prediction: {disease_name}"
 
 if __name__ == "__main__":
     app.run(debug=True)
