@@ -144,7 +144,7 @@ def getdataframe(userid):
     return res
 
 def preprocess_image(img_path):
-    # Open image
+
     image = Image.open(img_path).convert("RGB")
 
     # Resize to 160x160 (as required by your model)
