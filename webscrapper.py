@@ -49,6 +49,7 @@ def getTableData(state,district,commodity_name,startDate,endDate):
                 data.append(entry)
     return {"data":data,"market_ids":market_ids}
 
+
 def getData(state,district,market_id,intCom,startDate,endDate):
 
     data=[]

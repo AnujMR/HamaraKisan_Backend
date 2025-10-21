@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
 from webscrapper import getTableData,getData
+from datetime import datetime,timedelta
 app = Flask(__name__)
 
 # Initialize Firebase
@@ -15,7 +16,6 @@ current_markets = {}
 
 @app.route("/")
 def home():
-    print({"Khargone":30})
     return "Flask connected with Firebase ✅"
 
 # Authentication
@@ -24,7 +24,7 @@ def authentication():
     try:
         id_token=request.json.get("token")
         decoded_token=auth.verify_id_token(id_token) 
-        uid=decoded_token["uid"]
+        uid=decoded_token.get("uid")
         email=decoded_token.get("email")
         name=decoded_token.get("name")
         picture=decoded_token.get("picture")
@@ -104,10 +104,11 @@ def pin_mandi(user_id):
     data=request.get_json()
     doc_ref=db.collection("users").document(user_id)
     mandi_id=current_markets[data["market_name"]]
-    pinnedMandis=doc_ref.get().to_dict()["pinnedMandis"].append({"state":data["state"],"district":data["district"],"id":mandi_id})
-    print(pinnedMandis)
+    prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
+    currentPinnedMandis=prevPinnedMadis.append({"state":data["state"],"district":data["district"],"id":mandi_id})
+    print(currentPinnedMandis)
     doc_ref.update({
-        "pinnedMandis":pinnedMandis
+        "pinnedMandis":currentPinnedMandis
     })
 
 # get all the pinned mandis
@@ -119,15 +120,18 @@ def getpinnedmandis(user_id):
 # to get commodity info for a specific mandi
 @app.route("/getdataframe/<userid>",methods=["post"])
 def getdataframe(userid):
+    print(userid)
     data=request.get_json()
     state=data["state"]
     district=data["district"]
     market_id=data["marketid"]
+    days=data["days"]
+    startDate=datetime.today().strftime("%d-%b-%Y")
+    endDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
+    print(data)
     doc_ref=db.collection("users").document(userid)
     intCom=doc_ref.get().to_dict()["interestedCom"]
     print(intCom)
-    startDate=data["startDate"]
-    endDate=data["endDate"]
     res=getData(state,district,market_id,intCom,startDate,endDate)
     print(res)
     return res
