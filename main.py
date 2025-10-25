@@ -3,7 +3,9 @@ from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-from webscrapper import getTableData,getData
+from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist
+from datetime import datetime, timedelta
+from store import commodity_map, state_map, districts
 import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
@@ -29,8 +31,19 @@ current_markets = {}
 
 @app.route("/")
 def home():
-    print({"Khargone":30})
     return "Flask connected with Firebase ✅"
+
+@app.route("/test_db")
+def test_db():
+    try:
+        # Try to get a collection or document
+        doc = db.collection("users").limit(1).get()
+        if doc:
+            return "Connected to Firestore! Found some data."
+        else:
+            return "Connected but no data in 'users' collection."
+    except Exception as e:
+        return f"Connection failed: {str(e)}"
 
 # Authentication
 @app.route("/googleAuth",methods=["post"])
@@ -38,7 +51,7 @@ def authentication():
     try:
         id_token=request.json.get("token")
         decoded_token=auth.verify_id_token(id_token) 
-        uid=decoded_token["uid"]
+        uid=decoded_token.get("uid")
         email=decoded_token.get("email")
         name=decoded_token.get("name")
         picture=decoded_token.get("picture")
@@ -117,16 +130,30 @@ def get_table_data():
 
     return jsonify(table_data["data"])
 
+@app.route("/homePageGraphs",methods=["post"])
+def getHomePageGraphs():
+    data=request.get_json()
+    state=data["state"]
+    # district = data["district"]
+    commodity_name=data["commodity_name"]
+    startDate=data["startDate"]
+    endDate=data["endDate"]
+    top5Districts=getTopDistrict(state,commodity_name,startDate,endDate)
+    top5PriceTrend={}
+    for dist in top5Districts:
+        top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
+    return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend})
 # pin a mandi
 @app.route("/pin_mandi/<user_id>",methods=["post"])
 def pin_mandi(user_id):
-    data=request.get_json()
+    data=request.get_json() 
     doc_ref=db.collection("users").document(user_id)
     mandi_id=current_markets[data["market_name"]]
-    pinnedMandis=doc_ref.get().to_dict()["pinnedMandis"].append({"state":data["state"],"district":data["district"],"id":mandi_id})
-    print(pinnedMandis)
+    prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
+    currentPinnedMandis=prevPinnedMadis.append({"state":data["state"],"district":data["district"],"id":mandi_id})
+    print(currentPinnedMandis)
     doc_ref.update({
-        "pinnedMandis":pinnedMandis
+        "pinnedMandis":currentPinnedMandis
     })
 
 # get all the pinned mandis
@@ -136,34 +163,43 @@ def getpinnedmandis(user_id):
     return doc_ref.get().to_dict()["pinnedMandis"] 
 
 # to get commodity info for a specific mandi
-@app.route("/getdataframe/<userid>",methods=["post"])
-def getdataframe(userid):
+@app.route("/getdataframe",methods=["post"])
+def getdataframe():
     data=request.get_json()
     state=data["state"]
     district=data["district"]
     market_id=data["marketid"]
-    doc_ref=db.collection("users").document(userid)
-    intCom=doc_ref.get().to_dict()["interestedCom"]
-    print(intCom)
-    startDate=data["startDate"]
-    endDate=data["endDate"]
-    res=getData(state,district,market_id,intCom,startDate,endDate)
-    print(res)
+    days=data["days"]
+    comm=data["comm"]
+    endDate=datetime.today().strftime("%d-%b-%Y")
+    startDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
+    # doc_ref = db.collection("users").document(userid)
+    # user_data = doc_ref.get().to_dict()
+    # intCom = user_data["interestedCom"]
+    res=getPriceTrend(state,district,market_id,startDate,endDate,comm)
+    # print(res)
     return res
+
+# @app.route("/topdistrict",methods=["post"])
+# def gettopdistrict():
+#     data=request.get_json()
+#     state=data["state"]
+#     days=data["days"]
+#     comm=data["comm"]
+#     endDate=datetime.today().strftime("%d-%b-%Y")
+#     startDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
+#     s=getTopDistrict(state,comm,startDate,endDate)
+#     return res
 
 def preprocess_image(img_path):
 
     image = Image.open(img_path).convert("RGB")
-
     # Resize to 160x160 (as required by your model)
     image = image.resize((160, 160))
-
     # Convert to numpy array
     img_array = np.array(image)
-
     # Add batch dimension
     img_array = np.expand_dims(img_array, axis=0)
-
     return img_array
 
 @app.route("/predict_disease",methods=["get"])
@@ -174,6 +210,7 @@ def predict_disease():
     disease_name = class_names[predicted_class]
     print(disease_name)
     return f"Prediction: {disease_name}"
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
