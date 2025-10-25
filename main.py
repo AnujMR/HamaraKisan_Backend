@@ -6,6 +6,8 @@ from firebase_admin import credentials, firestore, auth
 from webscrapper import getTableData,getData
 import numpy as np
 import tensorflow as tf
+from flask_cors import CORS
+
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -14,6 +16,7 @@ with open("class_names.pkl", "rb") as f:
     class_names = pickle.load(f)
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialize Firebase
 cred = credentials.Certificate("firebase_key.json")  # path to your key file
@@ -98,15 +101,20 @@ def updateData(user_id):
     
 # get table data
 @app.route("/getTableData",methods=["post"])
-def gettableData():
-    data=request.get_json()
-    state=data["state"]
+def get_table_data():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No JSON data received"}), 400
+
+    state = data["state"]
     district = data["district"]
-    commodity_name=data["commodity_name"]
-    startDate=data["startDate"]
-    endDate=data["endDate"]
-    table_data = getTableData(state,district,commodity_name,startDate,endDate)
+    commodity_name = data["commodity_name"]
+    startDate = data["startDate"]
+    endDate = data["endDate"]
+
+    table_data = getTableData(state, district, commodity_name, startDate, endDate)
     current_markets = table_data["market_ids"]
+
     return jsonify(table_data["data"])
 
 # pin a mandi
@@ -168,4 +176,4 @@ def predict_disease():
     return f"Prediction: {disease_name}"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
