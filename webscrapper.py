@@ -89,6 +89,40 @@ def getPriceTrend(state,district,market_id,startDate,endDate,comm):
         tabledata = sorted(tabledata,key=lambda x: datetime.strptime(x["date"], "%d %b %Y"))
     return tabledata
 
+
+def getPriceTrendForDist(state,district,startDate,endDate,comm):
+    stateCode=state_map[state]
+    districtCode = districts[stateCode][district]
+    com_id = commodity_map[comm]
+    url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market=0&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ comm +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+    }
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, "html.parser")
+    table = soup.find("table", {"class": "tableagmark_new"})
+    distTrend = defaultdict(list)
+    if table:
+        rows = table.find_all("tr")[1:]  
+        for row in rows:
+            cols = [col.get_text(strip=True) for col in row.find_all("td")]
+            if len(cols) >= 7 and cols[0] != '-':
+                entry = {
+                    # "market_name": cols[2],
+                    # "district": cols[1],
+                    # "state": state,
+                    # "commodity": comm,
+                    # "grade": cols[5],
+                    # "min_price": int(cols[6]),
+                    # "max_price": int(cols[7]),
+                    "modal_price": int(cols[8]),
+                    "date": cols[9],
+                    # "variety":cols[4]
+                }
+                distTrend[entry["date"]].append(entry["modal_price"])
+        distTrend = {date: int(sum(prices)/len(prices)) for date, prices in distTrend.items()}
+    return distTrend
+
 def getTopDistrict(state,comm,startDate,endDate):
     stateCode=state_map[state]
     com_id = commodity_map[comm]

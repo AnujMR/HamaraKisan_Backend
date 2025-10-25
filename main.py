@@ -3,8 +3,9 @@ from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-from webscrapper import getTableData,getPriceTrend,getTopDistrict
+from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist
 from datetime import datetime, timedelta
+from store import commodity_map, state_map, districts
 
 app = Flask(__name__)
 
@@ -111,13 +112,26 @@ def gettableData():
     endDate=data["endDate"]
     table_data = getTableData(state,district,commodity_name,startDate,endDate)
     current_markets = table_data["market_ids"]
-    top5Districts=getTopDistrict(state,commodity_name,startDate,endDate)
-    return jsonify({"tableData":table_data["data"],"topDistricts":top5Districts})
+    # return top5PriceTrend
+    return jsonify({"tableData":table_data["data"]})
 
+@app.route("/homePageGraphs",methods=["post"])
+def getHomePageGraphs():
+    data=request.get_json()
+    state=data["state"]
+    # district = data["district"]
+    commodity_name=data["commodity_name"]
+    startDate=data["startDate"]
+    endDate=data["endDate"]
+    top5Districts=getTopDistrict(state,commodity_name,startDate,endDate)
+    top5PriceTrend={}
+    for dist in top5Districts:
+        top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
+    return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend})
 # pin a mandi
 @app.route("/pin_mandi/<user_id>",methods=["post"])
 def pin_mandi(user_id):
-    data=request.get_json()
+    data=request.get_json() 
     doc_ref=db.collection("users").document(user_id)
     mandi_id=current_markets[data["market_name"]]
     prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
