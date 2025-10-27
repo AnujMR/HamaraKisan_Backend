@@ -122,10 +122,9 @@ def get_table_data():
     startDate = data["startDate"]
     endDate = data["endDate"]
     table_data = getTableData(state, district, commodity_name, startDate, endDate)
-    # current_markets = table_data["market_ids"]
     return jsonify(table_data)
 
-@app.route("/homePageGraphs/<uid>",methods=["post"])
+@app.route("/homePageGraphs/<user_id>",methods=["post"])
 def getHomePageGraphs(user_id):
     docref=db.collection("users").document(user_id)
     data=docref.get().to_dict()
@@ -149,8 +148,11 @@ def pin_mandi(user_id):
     data=request.get_json() 
     doc_ref=db.collection("users").document(user_id)
     mandi_id=data["market_id"]
+    # print(data["state"])
+    # print(data["district"])
+    # print(mandi_id)
     prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
-    currentPinnedMandis=prevPinnedMadis.append({"state":data["state"],"district":data["district"],"id":mandi_id})
+    currentPinnedMandis=prevPinnedMadis.append({"state":state_map[data["state"]],"district":data["district"],"id":mandi_id})
     # print(currentPinnedMandis)
     doc_ref.update({
         "pinnedMandis":currentPinnedMandis
@@ -161,10 +163,6 @@ def pin_mandi(user_id):
 def getpinnedmandis(user_id):
     doc_ref=db.collection("users").document(user_id)
     return doc_ref.get().to_dict()["pinnedMandis"] 
-
-
-
-
 
 # to get commodity info for a specific mandi
 @app.route("/getdataframe",methods=["post"])
