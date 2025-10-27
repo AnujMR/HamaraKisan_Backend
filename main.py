@@ -3,7 +3,7 @@ from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist
+from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist,getpinnedMandiComp
 from datetime import datetime, timedelta
 from store import commodity_map, state_map, districts
 import numpy as np
@@ -26,8 +26,6 @@ firebase_admin.initialize_app(cred)
 
 # Example: Connect to Firestore
 db = firestore.client()
-
-current_markets = {}
 
 @app.route("/")
 def home():
@@ -118,21 +116,21 @@ def get_table_data():
     data = request.get_json()
     if not data:
         return jsonify({"error": "No JSON data received"}), 400
-
     state = data["state"]
     district = data["district"]
     commodity_name = data["commodity_name"]
     startDate = data["startDate"]
     endDate = data["endDate"]
-
     table_data = getTableData(state, district, commodity_name, startDate, endDate)
-    current_markets = table_data["market_ids"]
+    # current_markets = table_data["market_ids"]
+    return jsonify(table_data)
 
-    return jsonify(table_data["data"])
-
-@app.route("/homePageGraphs",methods=["post"])
-def getHomePageGraphs():
-    data=request.get_json()
+@app.route("/homePageGraphs/<uid>",methods=["post"])
+def getHomePageGraphs(user_id):
+    docref=db.collection("users").document(user_id)
+    data=docref.get().to_dict()
+    pinnedMandis=data["pinnedMandis"]
+    interested_Com=data["interestedCom"]
     state=data["state"]
     # district = data["district"]
     commodity_name=data["commodity_name"]
@@ -142,16 +140,18 @@ def getHomePageGraphs():
     top5PriceTrend={}
     for dist in top5Districts:
         top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
-    return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend})
+    pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com)
+    return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend,"pinnedMandiComparison":pinnedMandiComparison})
+
 # pin a mandi
 @app.route("/pin_mandi/<user_id>",methods=["post"])
 def pin_mandi(user_id):
     data=request.get_json() 
     doc_ref=db.collection("users").document(user_id)
-    mandi_id=current_markets[data["market_name"]]
+    mandi_id=data["market_id"]
     prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
     currentPinnedMandis=prevPinnedMadis.append({"state":data["state"],"district":data["district"],"id":mandi_id})
-    print(currentPinnedMandis)
+    # print(currentPinnedMandis)
     doc_ref.update({
         "pinnedMandis":currentPinnedMandis
     })
@@ -161,6 +161,10 @@ def pin_mandi(user_id):
 def getpinnedmandis(user_id):
     doc_ref=db.collection("users").document(user_id)
     return doc_ref.get().to_dict()["pinnedMandis"] 
+
+
+
+
 
 # to get commodity info for a specific mandi
 @app.route("/getdataframe",methods=["post"])

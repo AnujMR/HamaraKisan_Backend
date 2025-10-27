@@ -7,32 +7,25 @@ from datetime import datetime
 from collections import defaultdict
 
 def getTableData(state,district,commodity_name,startDate,endDate):
-
     stateCode=state_map[state]
     if district=="--Select--":
         districtCode=0
     else:
         districtCode = districts[stateCode][district]
-
     com_id = commodity_map[commodity_name]
-
     url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market=0&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ commodity_name +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead=--Select--"
-
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
     }
-
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, "html.parser")
     # pprint(soup.find("select", {"id":"ddlCommodity"}))
     data = []
-
     # The data table is usually inside <table id="cphBody_GridView1"> on this site
     table = soup.find("table", {"class": "tableagmark_new"})
     market_ids_element = soup.find("select", {"id": "ddlMarket"})
     market_ids = {opt.text.strip(): opt["value"] for opt in market_ids_element.find_all("option") if opt["value"] != "0"}
     # print(market_ids)
-
     # print(table)
     if table:
         rows = table.find_all("tr")[1:]  # skip header row
@@ -50,10 +43,11 @@ def getTableData(state,district,commodity_name,startDate,endDate):
                     "max_price": int(float(cols[7])),
                     "modal_price": int(float(cols[8])),
                     "date": cols[9],
-                    "variety":cols[4]
-                }
+                    "variety":cols[4],
+                    "market_id":market_ids[cols[2]]
+                }   
                 data.append(entry)
-    return {"data":data,"market_ids":market_ids}
+    return data
 
 
 def getPriceTrend(state,district,market_id,startDate,endDate,comm):
@@ -153,3 +147,9 @@ def getTopDistrict(state,comm,startDate,endDate):
     sorted_top = sorted(district_prices.items(), key=lambda x: x[1], reverse=True)[:5]
     top_5_dict = dict(sorted_top)
     return top_5_dict
+
+def getpinnedMandiComp(pinnedMandis,interested_Com):
+    for pinnedMandi in pinnedMandis:
+        district=pinnedMandi["district"]
+        state=pinnedMandi["state"]
+        mandiId=pinnedMandi["id"]
