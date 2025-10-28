@@ -128,12 +128,12 @@ def get_table_data():
 @app.route("/homePageGraphs/<user_id>",methods=["post"])
 def getHomePageGraphs(user_id):
     body=request.get_json()
-    days=body["days"]
     state=body["state"]
     commodity_name=body["commodity_name"]
-
-    endDate=datetime.today().strftime("%d-%b-%Y")
-    startDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
+    startDate=body["startDate"]
+    endDate=body["endDate"]
+    endDate1=datetime.today().strftime("%d-%b-%Y")
+    startDate1=(datetime.today() - timedelta(days=30)).strftime("%d-%b-%Y")
     docref=db.collection("users").document(user_id)
     data=docref.get().to_dict()
     pinnedMandis=data["pinnedMandis"]
@@ -143,7 +143,7 @@ def getHomePageGraphs(user_id):
     top5PriceTrend={}
     for dist in top5Districts:
         top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
-    pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate)
+    pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com,startDate1,endDate1)
     return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend,"pinnedMandiComparison":pinnedMandiComparison})
 
 # pin a mandi (Tested Working)
