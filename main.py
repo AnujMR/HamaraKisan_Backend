@@ -10,7 +10,6 @@ import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
 
-
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
 # Load class names
@@ -31,6 +30,7 @@ db = firestore.client()
 def home():
     return "Flask connected with Firebase ✅"
 
+# for testing database connection
 @app.route("/test_db")
 def test_db():
     try:
@@ -110,7 +110,7 @@ def updateData(user_id):
     except Exception as e:
         return jsonify({"error":str(e)}),500
     
-# get table data
+# get table data (Tested Working)
 @app.route("/getTableData",methods=["post"])
 def get_table_data():
     data = request.get_json()
@@ -124,47 +124,70 @@ def get_table_data():
     table_data = getTableData(state, district, commodity_name, startDate, endDate)
     return jsonify(table_data)
 
+# get homepage graphs (Tested Working)
 @app.route("/homePageGraphs/<user_id>",methods=["post"])
 def getHomePageGraphs(user_id):
+    body=request.get_json()
+    days=body["days"]
+    state=body["state"]
+    commodity_name=body["commodity_name"]
+
+    endDate=datetime.today().strftime("%d-%b-%Y")
+    startDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
     docref=db.collection("users").document(user_id)
     data=docref.get().to_dict()
     pinnedMandis=data["pinnedMandis"]
     interested_Com=data["interestedCom"]
-    state=data["state"]
     # district = data["district"]
-    commodity_name=data["commodity_name"]
-    startDate=data["startDate"]
-    endDate=data["endDate"]
     top5Districts=getTopDistrict(state,commodity_name,startDate,endDate)
     top5PriceTrend={}
     for dist in top5Districts:
         top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
-    pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com)
+    pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate)
     return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend,"pinnedMandiComparison":pinnedMandiComparison})
 
-# pin a mandi
-@app.route("/pin_mandi/<user_id>",methods=["post"])
+# pin a mandi (Tested Working)
+@app.route("/pin_mandi/<user_id>", methods=["POST"])
 def pin_mandi(user_id):
-    data=request.get_json() 
-    doc_ref=db.collection("users").document(user_id)
-    mandi_id=data["market_id"]
-    # print(data["state"])
-    # print(data["district"])
-    # print(mandi_id)
-    prevPinnedMadis=doc_ref.get().to_dict()["pinnedMandis"]
-    currentPinnedMandis=prevPinnedMadis.append({"state":state_map[data["state"]],"district":data["district"],"id":mandi_id})
-    # print(currentPinnedMandis)
-    doc_ref.update({
-        "pinnedMandis":currentPinnedMandis
-    })
+    data = request.get_json() 
+    doc_ref = db.collection("users").document(user_id)
+    mandi_id = data["market_id"]
+    marketName = data["marketName"]
+    state = data["state"]
+    district = data["district"]
+    user_doc = doc_ref.get()
+    if not user_doc.exists:
+        return jsonify({"success": False, "message": "User not found"}), 404
+    prevPinnedMandis = user_doc.to_dict().get("pinnedMandis") or []
 
-# get all the pinned mandis
+    if any(mandi.get("id") == mandi_id for mandi in prevPinnedMandis):
+        return jsonify({
+            "success": False,
+            "message": f"Mandi '{marketName}' is already pinned.",
+            "pinnedMandis": prevPinnedMandis
+        }), 400
+    prevPinnedMandis.append({
+        "state": state,
+        "district": district,
+        "id": mandi_id,
+        "marketName": marketName
+    })
+    doc_ref.update({
+        "pinnedMandis": prevPinnedMandis
+    })
+    return jsonify({
+        "success": True,
+        "message": "Mandi pinned successfully!",
+        "pinnedMandis": prevPinnedMandis
+    }), 200
+
+# get all the pinned mandis (Tested and working)
 @app.route("/getPinnednMadis/<user_id>",methods=["get"])
 def getpinnedmandis(user_id):
     doc_ref=db.collection("users").document(user_id)
     return doc_ref.get().to_dict()["pinnedMandis"] 
 
-# to get commodity info for a specific mandi
+# to get commodity info for a specific mandi (Tested Working)
 @app.route("/getdataframe",methods=["post"])
 def getdataframe():
     data=request.get_json()
@@ -181,17 +204,6 @@ def getdataframe():
     res=getPriceTrend(state,district,market_id,startDate,endDate,comm)
     # print(res)
     return res
-
-# @app.route("/topdistrict",methods=["post"])
-# def gettopdistrict():
-#     data=request.get_json()
-#     state=data["state"]
-#     days=data["days"]
-#     comm=data["comm"]
-#     endDate=datetime.today().strftime("%d-%b-%Y")
-#     startDate=(datetime.today() - timedelta(days=days)).strftime("%d-%b-%Y")
-#     s=getTopDistrict(state,comm,startDate,endDate)
-#     return res
 
 def preprocess_image(img_path):
 

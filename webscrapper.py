@@ -49,7 +49,6 @@ def getTableData(state,district,commodity_name,startDate,endDate):
                 data.append(entry)
     return data
 
-
 def getPriceTrend(state,district,market_id,startDate,endDate,comm):
     stateCode=state_map[state]
     districtCode = districts[stateCode][district]
@@ -82,7 +81,6 @@ def getPriceTrend(state,district,market_id,startDate,endDate,comm):
                 tabledata.append(entry)
         tabledata = sorted(tabledata,key=lambda x: datetime.strptime(x["date"], "%d %b %Y"))
     return tabledata
-
 
 def getPriceTrendForDist(state,district,startDate,endDate,comm):
     stateCode=state_map[state]
@@ -148,8 +146,38 @@ def getTopDistrict(state,comm,startDate,endDate):
     top_5_dict = dict(sorted_top)
     return top_5_dict
 
-def getpinnedMandiComp(pinnedMandis,interested_Com):
-    for pinnedMandi in pinnedMandis:
-        district=pinnedMandi["district"]
-        state=pinnedMandi["state"]
-        mandiId=pinnedMandi["id"]
+def getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate):
+    data={}
+    for commodity_name in interested_Com:
+        mandi_prices = {}
+        # print(commodity_name)
+        for mandi in pinnedMandis:
+            # print(mandi)
+            market_name=mandi["marketName"]
+            state=mandi["state"]
+            district=mandi["district"]
+            mandi_id=mandi["id"]
+            stateCode=state_map[state]
+            districtCode=districts[stateCode][district]
+            com_id=commodity_map[commodity_name]
+            url = "https://www.agmarknet.gov.in/SearchCmmMkt.aspx?Tx_Commodity="+com_id+"&Tx_State=" + str(stateCode) + "&Tx_District="+str(districtCode)+"&Tx_Market="+str(mandi_id)+"&DateFrom=" + startDate + "&DateTo="+endDate+"&Fr_Date="+startDate+"&To_Date="+endDate+"&Tx_Trend=0&Tx_CommodityHead="+ commodity_name +"&Tx_StateHead="+ state +"&Tx_DistrictHead="+district+"&Tx_MarketHead="+market_name
+            # print(url)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+            }
+            response = requests.get(url, headers=headers)
+            soup = BeautifulSoup(response.text, "html.parser")
+            table = soup.find("table", {"class": "tableagmark_new"})
+            if table:
+                rows=table.find_all("tr")[1:]  
+            model_prices=[]
+            # print(rows)
+            for row in rows:
+                cols = [col.get_text(strip=True) for col in row.find_all("td")]
+                if len(cols) >8 and cols[0] != '-':
+                    model_prices.append(int(float(cols[8])))
+            if len(model_prices)>0:
+                average_price = sum(model_prices) / len(model_prices)
+                mandi_prices[market_name]=(int)(average_price)
+            data[commodity_name]=mandi_prices
+    return data
