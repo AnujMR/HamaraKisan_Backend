@@ -20,7 +20,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Initialize Firebase
-cred = credentials.Certificate("firebase_key.json")  # path to your key file
+firebase_key_data = json.loads(os.environ["FIREBASE_KEY"])
+cred = credentials.Certificate(firebase_key_data)
 firebase_admin.initialize_app(cred)
 
 # Example: Connect to Firestore
