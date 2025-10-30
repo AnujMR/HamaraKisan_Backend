@@ -10,6 +10,7 @@ import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
 import json
+import os
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
