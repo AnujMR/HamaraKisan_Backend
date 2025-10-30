@@ -31,7 +31,7 @@ db = firestore.client()
 
 @app.route("/")
 def home():
-    return "Flask connected with Firebase ✅"
+    return "Hello, This is the backend for Hamara Kisan!"
 
 # for testing database connection
 @app.route("/test_db")
