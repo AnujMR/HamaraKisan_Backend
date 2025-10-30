@@ -1,3 +1,9 @@
 flask
 flask-cors
+firebase-admin
+requests
+beautifulsoup4
+tensorflow
+pillow
 gunicorn
+numpy
