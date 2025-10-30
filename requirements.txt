@@ -1,9 +1,9 @@
-flask
+Flask
 flask-cors
 firebase-admin
 requests
-beautifulsoup4
+bs4
 tensorflow
-pillow
+Pillow
 gunicorn
 numpy
