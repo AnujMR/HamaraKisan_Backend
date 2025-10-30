@@ -9,6 +9,7 @@ from store import commodity_map, state_map, districts
 import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
+import json
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
