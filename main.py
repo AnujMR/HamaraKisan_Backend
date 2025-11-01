@@ -137,7 +137,7 @@ def updateData(user_id):
 # get table data (Tested Working)
 @app.route("/getTableData",methods=["post"])
 def get_table_data():
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
@@ -191,6 +191,32 @@ def getHomePageGraphs(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
     
+@app.route("/addRecord/<user_id>",methods=["POST"])
+def addRecord(user_id):
+    id_token=request.get_json("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        body=request.get_json()
+        newEntry={}
+        newEntry["commodity"]=body["commodity"]
+        newEntry["data"]=body["date"]
+        newEntry["price"]=body["price"]
+        newEntry["quantity"]=body["quantity"]
+        newEntry["total"]=body["price"]*body["quantity"]
+        doc_ref=db.collection("dashboard").get(user_id)
+        prevData=doc_ref.to_dict().get("data")
+        newEntry["index"]=prevData.length
+        prevData.append(newEntry)
+
+
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+
 # pin a mandi (Tested Working)
 @app.route("/pin_mandi/<user_id>", methods=["POST"])
 def pin_mandi(user_id):
