@@ -11,6 +11,7 @@ import tensorflow as tf
 from flask_cors import CORS
 import json
 import os
+import random
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -111,7 +112,7 @@ def test_db():
 #update the user data
 @app.route("/userUpdate/<user_id>",methods=["post"])
 def updateData(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
@@ -162,10 +163,11 @@ def get_table_data():
 # get homepage graphs (Tested Working)
 @app.route("/homePageGraphs/<user_id>",methods=["post"])
 def getHomePageGraphs(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         body=request.get_json()
         state=body["state"]
         commodity_name=body["commodity_name"]
@@ -193,23 +195,34 @@ def getHomePageGraphs(user_id):
     
 @app.route("/addRecord/<user_id>",methods=["POST"])
 def addRecord(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         body=request.get_json()
         newEntry={}
         newEntry["commodity"]=body["commodity"]
-        newEntry["data"]=body["date"]
+        newEntry["date"]=body["date"]
         newEntry["price"]=body["price"]
         newEntry["quantity"]=body["quantity"]
         newEntry["total"]=body["price"]*body["quantity"]
-        doc_ref=db.collection("dashboard").get(user_id)
-        prevData=doc_ref.to_dict().get("data")
-        newEntry["index"]=prevData.length
+
+        doc_ref=db.collection("dashboard").document(user_id)
+
+        prevData=doc_ref.get().to_dict().get("data")
+        rand=random.randint(10000, 99999)
+        newEntry["index"]=user_id+str(rand)
         prevData.append(newEntry)
-
-
+        print(prevData)
+        doc_ref.update({
+            "data": prevData
+        })
+        return jsonify({
+            "success": True,
+            "message": "Entry Created successfully!",
+            "data": prevData
+        }), 200
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
@@ -220,10 +233,11 @@ def addRecord(user_id):
 # pin a mandi (Tested Working)
 @app.route("/pin_mandi/<user_id>", methods=["POST"])
 def pin_mandi(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         data = request.get_json() 
         doc_ref = db.collection("users").document(user_id)
         mandi_id = data["market_id"]
@@ -265,10 +279,11 @@ def pin_mandi(user_id):
 # get all the pinned mandis (Tested and working)
 @app.route("/getPinnednMadis/<user_id>",methods=["get"])
 def getpinnedmandis(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         doc_ref=db.collection("users").document(user_id)
         pinnedMandis=doc_ref.get().to_dict()["pinnedMandis"]
         return pinnedMandis
@@ -282,10 +297,11 @@ def getpinnedmandis(user_id):
 # to get commodity info for a specific mandi (Tested Working)
 @app.route("/getdataframe",methods=["post"])
 def getdataframe():
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         data=request.get_json()
         state=data["state"]
         district=data["district"]
@@ -310,10 +326,11 @@ def getdataframe():
 #to get user dashboard data
 @app.route("/dashboard/<user_id>",methods=["get"])
 def getUserData(user_id):
-    id_token=request.get_json("token")
+    id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        auth.verify_id_token(id_token)
         doc_ref=db.collection("dashboard").document(user_id)
         data=doc_ref.get().to_dict()
         return data

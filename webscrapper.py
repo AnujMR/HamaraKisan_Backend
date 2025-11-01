@@ -183,6 +183,6 @@ def getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate):
             if len(model_prices)>0:
                 average_price = sum(model_prices) / len(model_prices)
                 mandi_prices[market_name]=(int)(average_price)
-            data[commodity_name]=mandi_prices
+                data[commodity_name]=mandi_prices   
     return data
 
