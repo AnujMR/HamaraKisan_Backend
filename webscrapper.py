@@ -185,3 +185,4 @@ def getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate):
                 mandi_prices[market_name]=(int)(average_price)
             data[commodity_name]=mandi_prices
     return data
+
