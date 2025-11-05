@@ -175,8 +175,8 @@ def getHomePageGraphs(user_id):
         commodity_name=body["commodity_name"]
         startDate=body["startDate"]
         endDate=body["endDate"]
-        endDate1=datetime.today().strftime("%d-%b-%Y")
-        startDate1=(datetime.today() - timedelta(days=30)).strftime("%d-%b-%Y")
+        # endDate1=datetime.today().strftime("%d-%b-%Y")
+        # startDate1=(datetime.today() - timedelta(days=30)).strftime("%d-%b-%Y")
         docref=db.collection("users").document(user_id)
         data=docref.get().to_dict()
         pinnedMandis=data["pinnedMandis"]
@@ -186,8 +186,29 @@ def getHomePageGraphs(user_id):
         top5PriceTrend={}   
         for dist in top5Districts:
             top5PriceTrend[dist]=getPriceTrendForDist(state,dist,startDate,endDate,commodity_name)
-        pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com,startDate1,endDate1)
-        return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend,"pinnedMandiComparison":pinnedMandiComparison})
+        return jsonify({"topDistricts":top5Districts,"priceTrend":top5PriceTrend})
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+    
+@app.route("/pinnedMandiComparison/<user_id>",methods=["POST"])
+def pinnedMandiComparison(user_id):
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        endDate=datetime.today().strftime("%d-%b-%Y")
+        startDate=(datetime.today() - timedelta(days=30)).strftime("%d-%b-%Y")
+        docref=db.collection("users").document(user_id)
+        data=docref.get().to_dict()
+        pinnedMandis=data["pinnedMandis"]
+        interested_Com=data["interestedCom"]
+        pinnedMandiComparison=getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate)
+        return jsonify({"pinnedMandiComparison":pinnedMandiComparison})
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
