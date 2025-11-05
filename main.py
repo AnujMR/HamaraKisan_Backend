@@ -1,3 +1,4 @@
+import io
 import pickle
 from PIL import Image
 from flask import Flask, jsonify, request
@@ -12,6 +13,7 @@ from flask_cors import CORS
 import json
 import os
 import random
+from google import genai
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -396,29 +398,69 @@ def getUserData(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
 
-def preprocess_image(img_path):
+def preprocess_image(uploaded_file):
 
-    image = Image.open(img_path).convert("RGB")
-    # Resize to 160x160 (as required by your model)
+    # Read image bytes from the uploaded file
+    image = Image.open(io.BytesIO(uploaded_file.read())).convert("RGB")
+    
+    # Resize to model input size
     image = image.resize((160, 160))
-    # Convert to numpy array
-    img_array = np.array(image)
-    # Add batch dimension
+    
+    img_array = np.array(image, dtype=np.float32)
+    
+    # # Normalize if needed 
+    # img_array = img_array / 255.0
+    
     img_array = np.expand_dims(img_array, axis=0)
+    
     return img_array
 
-@app.route("/predict_disease",methods=["get"])
+def getRemedyFromAi(disease):
+    client = genai.Client(api_key="AIzaSyCyq8BI8wnmK2jvC7gwRYmLeepTCi-b6pE")
+    prompt = f"You are a farming expert. My crop in my farm has {disease} disease. Suggest me the remedy for it along with recommended pestisides. Give formal, precise response without any jargon"
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+    )
+    print(response.text)
+    return response.text
+
+@app.route("/predict_disease",methods=["post"])
 def predict_disease():
-    id_token=request.get_json("token")
+    id_token=request.form.get('token')
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
     try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+    
+        file = request.files['file']
+        print("File is : ", file)
+
         # prediction = model.predict([request.json.get("data")])
-        pred = model.predict(preprocess_image('leaf4 .png'))
+        pred = model.predict(preprocess_image(file))
         predicted_class = np.argmax(pred[0])
         disease_name = class_names[predicted_class]
         print(disease_name)
-        return f"Prediction: {disease_name}"
+        isNotDiseased = ("healthy" in disease_name) or (disease_name == "Background_without_leaves")
+        return jsonify({"disease": disease_name, "isDiseased": not isNotDiseased})
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+
+@app.route("/getRemedy",methods=["post"])
+def getRemedy():
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        body=request.get_json()
+        disease=body["disease"]
+        return getRemedyFromAi(disease)
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
