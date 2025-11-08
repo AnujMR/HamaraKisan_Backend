@@ -438,7 +438,7 @@ def preprocess_image(uploaded_file):
 
 def getRemedyFromAi(disease):
     client = genai.Client(api_key="AIzaSyCyq8BI8wnmK2jvC7gwRYmLeepTCi-b6pE")
-    prompt = f"You are a farming expert. My crop in my farm has {disease} disease. Suggest me the remedy for it along with recommended pestisides. Give formal, precise response without any jargon"
+    prompt = f"You are a farming expert. My crop in my farm has {disease} disease. Suggest me the remedy for it along with recommended pestisides. Give formal, precise response without any jargon. No need to greet or introduce yourself. Just give me the remedy in brief."
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=prompt,
@@ -481,7 +481,7 @@ def getRemedy():
         auth.verify_id_token(id_token)
         body=request.get_json()
         disease=body["disease"]
-        return getRemedyFromAi(disease)
+        return jsonify({"data": getRemedyFromAi(disease)})
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
