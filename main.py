@@ -1,3 +1,4 @@
+import io
 import pickle
 from PIL import Image
 from flask import Flask, jsonify, request
@@ -14,6 +15,9 @@ import os
 import random
 import requests
 from store import comm_id
+from google import genai
+from dotenv import load_dotenv
+load_dotenv()
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -71,5 +75,4 @@ def getTableData():
             "date":date
         })
     return {"mandis":mandis}
-
 
