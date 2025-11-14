@@ -2,10 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 from flask import jsonify
-from store import commodity_map, state_map, districts
+from old_store import commodity_map, state_map, districts
 from datetime import datetime
 from collections import defaultdict
-
+import json
+import os
 def getTableData(state,district,commodity_name,startDate,endDate):
     stateCode=state_map[state]
     if district=="--Select--":
@@ -185,4 +186,3 @@ def getpinnedMandiComp(pinnedMandis,interested_Com,startDate,endDate):
                 mandi_prices[market_name]=(int)(average_price)
                 data[commodity_name]=mandi_prices   
     return data
-
