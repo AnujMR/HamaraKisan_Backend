@@ -3469,3 +3469,2181 @@ state_market_map={
         "Uluberia APMC": 2269
     }
 }
+comm_id={
+    "Absinthe": {
+        "gid": 12,
+        "cid": 380
+    },
+    "Ajwain Husk": {
+        "gid": 10,
+        "cid": 454
+    },
+    "Ajwan": {
+        "gid": 7,
+        "cid": 115
+    },
+    "Alasande Gram": {
+        "gid": 2,
+        "cid": 234
+    },
+    "Almond(Badam)": {
+        "gid": 8,
+        "cid": 275
+    },
+    "Aloe Vera": {
+        "gid": 6,
+        "cid": 455
+    },
+    "Alsandikai": {
+        "gid": 6,
+        "cid": 138
+    },
+    "Amaranthus": {
+        "gid": 6,
+        "cid": 72
+    },
+    "Ambada Seed": {
+        "gid": 12,
+        "cid": 112
+    },
+    "Ambady/Mesta": {
+        "gid": 4,
+        "cid": 346
+    },
+    "Ambat Chuka": {
+        "gid": 6,
+        "cid": 456
+    },
+    "Amla(Nelli Kai)": {
+        "gid": 5,
+        "cid": 303
+    },
+    "Amphophalus": {
+        "gid": 1,
+        "cid": 86
+    },
+    "Amranthas Red": {
+        "gid": 6,
+        "cid": 348
+    },
+    "Antawala": {
+        "gid": 12,
+        "cid": 169
+    },
+    "Anthorium": {
+        "gid": 14,
+        "cid": 326
+    },
+    "Apple": {
+        "gid": 5,
+        "cid": 17
+    },
+    "Apricot(Jardalu/Khumani)": {
+        "gid": 5,
+        "cid": 276
+    },
+    "Arecanut(Betelnut/Supari)": {
+        "gid": 11,
+        "cid": 118
+    },
+    "Arhar Dal(Tur Dal)": {
+        "gid": 2,
+        "cid": 214
+    },
+    "Arhar(Tur/Red Gram)(Whole)": {
+        "gid": 2,
+        "cid": 45
+    },
+    "Arrowroot": {
+        "gid": 6,
+        "cid": 457
+    },
+    "Asalia": {
+        "gid": 11,
+        "cid": 373
+    },
+    "Asgand": {
+        "gid": 7,
+        "cid": 434
+    },
+    "Ashgourd": {
+        "gid": 6,
+        "cid": 69
+    },
+    "Ashoka": {
+        "gid": 11,
+        "cid": 435
+    },
+    "Ashwagandha": {
+        "gid": 11,
+        "cid": 372
+    },
+    "Asparagus": {
+        "gid": 11,
+        "cid": 363
+    },
+    "Astera": {
+        "gid": 14,
+        "cid": 190
+    },
+    "Atis": {
+        "gid": 11,
+        "cid": 436
+    },
+    "Avare Dal": {
+        "gid": 2,
+        "cid": 223
+    },
+    "Avocado": {
+        "gid": 5,
+        "cid": 458
+    },
+    "BOP": {
+        "gid": 14,
+        "cid": 327
+    },
+    "Baby Corn": {
+        "gid": 6,
+        "cid": 459
+    },
+    "Bael": {
+        "gid": 5,
+        "cid": 347
+    },
+    "Bajji chilli": {
+        "gid": 6,
+        "cid": 420
+    },
+    "Bajra(Pearl Millet/Cumbu)": {
+        "gid": 1,
+        "cid": 28
+    },
+    "Balekai": {
+        "gid": 6,
+        "cid": 228
+    },
+    "Bamboo": {
+        "gid": 12,
+        "cid": 164
+    },
+    "Bamboo Shoot": {
+        "gid": 6,
+        "cid": 460
+    },
+    "Banana": {
+        "gid": 5,
+        "cid": 19
+    },
+    "Banana - Green": {
+        "gid": 6,
+        "cid": 76
+    },
+    "Banana Leaf": {
+        "gid": 6,
+        "cid": 414
+    },
+    "Banana flower": {
+        "gid": 6,
+        "cid": 412
+    },
+    "Banana stem": {
+        "gid": 6,
+        "cid": 413
+    },
+    "Barley(Jau)": {
+        "gid": 1,
+        "cid": 29
+    },
+    "Barnyard Millet": {
+        "gid": 1,
+        "cid": 461
+    },
+    "Bay leaf(Tejpatta)": {
+        "gid": 12,
+        "cid": 271
+    },
+    "Beans": {
+        "gid": 2,
+        "cid": 80
+    },
+    "Beaten Rice": {
+        "gid": 1,
+        "cid": 216
+    },
+    "Beetroot": {
+        "gid": 6,
+        "cid": 129
+    },
+    "Behada": {
+        "gid": 12,
+        "cid": 437
+    },
+    "Bengal Gram Dal(Chana Dal)": {
+        "gid": 2,
+        "cid": 217
+    },
+    "Bengal Gram(Gram)(Whole)": {
+        "gid": 2,
+        "cid": 6
+    },
+    "Ber(Zizyphus/Borehannu)": {
+        "gid": 5,
+        "cid": 304
+    },
+    "Betal Leaves": {
+        "gid": 11,
+        "cid": 121
+    },
+    "Betelnuts": {
+        "gid": 7,
+        "cid": 37
+    },
+    "Bhindi(Ladies Finger)": {
+        "gid": 6,
+        "cid": 71
+    },
+    "Bhui Amlaya": {
+        "gid": 12,
+        "cid": 377
+    },
+    "Big Gram": {
+        "gid": 2,
+        "cid": 97
+    },
+    "Bilimbi": {
+        "gid": 5,
+        "cid": 462
+    },
+    "Binoula": {
+        "gid": 6,
+        "cid": 47
+    },
+    "Bitter gourd": {
+        "gid": 6,
+        "cid": 67
+    },
+    "Black Currant": {
+        "gid": 5,
+        "cid": 463
+    },
+    "Black Gram Dal(Urd Dal)": {
+        "gid": 2,
+        "cid": 218
+    },
+    "Black Gram(Urd Beans)(Whole)": {
+        "gid": 2,
+        "cid": 8
+    },
+    "Black pepper": {
+        "gid": 7,
+        "cid": 34
+    },
+    "Blueberry": {
+        "gid": 5,
+        "cid": 464
+    },
+    "Borehannu": {
+        "gid": 5,
+        "cid": 159
+    },
+    "Bottle gourd": {
+        "gid": 6,
+        "cid": 68
+    },
+    "Brahmi": {
+        "gid": 12,
+        "cid": 378
+    },
+    "Bran": {
+        "gid": 10,
+        "cid": 242
+    },
+    "Bread Fruit": {
+        "gid": 5,
+        "cid": 426
+    },
+    "Brinjal": {
+        "gid": 6,
+        "cid": 32
+    },
+    "Brocoli": {
+        "gid": 6,
+        "cid": 416
+    },
+    "Broken Rice": {
+        "gid": 10,
+        "cid": 244
+    },
+    "Broomstick(Flower Broom)": {
+        "gid": 12,
+        "cid": 270
+    },
+    "Browntop Millet": {
+        "gid": 1,
+        "cid": 465
+    },
+    "Bull": {
+        "gid": 13,
+        "cid": 173
+    },
+    "Bullar": {
+        "gid": 2,
+        "cid": 237
+    },
+    "Bunch Beans": {
+        "gid": 10,
+        "cid": 183
+    },
+    "Butter": {
+        "gid": 15,
+        "cid": 226
+    },
+    "Cabbage": {
+        "gid": 6,
+        "cid": 126
+    },
+    "Calendula": {
+        "gid": 14,
+        "cid": 409
+    },
+    "Calf": {
+        "gid": 13,
+        "cid": 174
+    },
+    "Camel Hair": {
+        "gid": 10,
+        "cid": 302
+    },
+    "Cane": {
+        "gid": 12,
+        "cid": 165
+    },
+    "Capsicum": {
+        "gid": 6,
+        "cid": 136
+    },
+    "Cardamoms": {
+        "gid": 7,
+        "cid": 36
+    },
+    "Carissa(Karvand)": {
+        "gid": 5,
+        "cid": 466
+    },
+    "Carnation": {
+        "gid": 14,
+        "cid": 322
+    },
+    "Carrot": {
+        "gid": 6,
+        "cid": 125
+    },
+    "Cashew Kernnel": {
+        "gid": 10,
+        "cid": 196
+    },
+    "Cashewnuts": {
+        "gid": 8,
+        "cid": 33
+    },
+    "Castor Oil": {
+        "gid": 15,
+        "cid": 224
+    },
+    "Castor Seed": {
+        "gid": 3,
+        "cid": 106
+    },
+    "Cauliflower": {
+        "gid": 6,
+        "cid": 31
+    },
+    "Chakhao(Black Rice)": {
+        "gid": 1,
+        "cid": 467
+    },
+    "Chakotha": {
+        "gid": 5,
+        "cid": 158
+    },
+    "Chandrashoor": {
+        "gid": 11,
+        "cid": 367
+    },
+    "Chapparad Avare": {
+        "gid": 6,
+        "cid": 141
+    },
+    "Chennangi Dal": {
+        "gid": 2,
+        "cid": 246
+    },
+    "Chennangi(Whole)": {
+        "gid": 2,
+        "cid": 198
+    },
+    "Cherry": {
+        "gid": 5,
+        "cid": 278
+    },
+    "Chhappan Kaddu": {
+        "gid": 6,
+        "cid": 468
+    },
+    "Chikoos(Sapota)": {
+        "gid": 5,
+        "cid": 58
+    },
+    "Chili Red": {
+        "gid": 7,
+        "cid": 26
+    },
+    "Chilly Capsicum": {
+        "gid": 6,
+        "cid": 74
+    },
+    "Chironji": {
+        "gid": 12,
+        "cid": 438
+    },
+    "Chow Chow": {
+        "gid": 6,
+        "cid": 139
+    },
+    "Chrysanthemum": {
+        "gid": 14,
+        "cid": 331
+    },
+    "Chrysanthemum(Loose)": {
+        "gid": 14,
+        "cid": 189
+    },
+    "Cinamon(Dalchini)": {
+        "gid": 7,
+        "cid": 267
+    },
+    "Clarkia": {
+        "gid": 14,
+        "cid": 407
+    },
+    "Cloves": {
+        "gid": 7,
+        "cid": 89
+    },
+    "Cluster beans": {
+        "gid": 6,
+        "cid": 66
+    },
+    "Coca": {
+        "gid": 7,
+        "cid": 266
+    },
+    "Cock": {
+        "gid": 13,
+        "cid": 315
+    },
+    "Cocoa": {
+        "gid": 9,
+        "cid": 88
+    },
+    "Coconut": {
+        "gid": 7,
+        "cid": 116
+    },
+    "Coconut Coir": {
+        "gid": 10,
+        "cid": 469
+    },
+    "Coconut Oil": {
+        "gid": 15,
+        "cid": 220
+    },
+    "Coconut Seed": {
+        "gid": 3,
+        "cid": 96
+    },
+    "Coffee": {
+        "gid": 9,
+        "cid": 41
+    },
+    "Colacasia": {
+        "gid": 6,
+        "cid": 269
+    },
+    "Coleus": {
+        "gid": 11,
+        "cid": 470
+    },
+    "Copra": {
+        "gid": 3,
+        "cid": 111
+    },
+    "Coriander(Leaves)": {
+        "gid": 6,
+        "cid": 39
+    },
+    "Corriander seed": {
+        "gid": 7,
+        "cid": 92
+    },
+    "Cossandra": {
+        "gid": 14,
+        "cid": 401
+    },
+    "Cotton": {
+        "gid": 4,
+        "cid": 15
+    },
+    "Cotton Seed": {
+        "gid": 3,
+        "cid": 84
+    },
+    "Cow": {
+        "gid": 13,
+        "cid": 171
+    },
+    "Cowpea(Lobia/Karamani)": {
+        "gid": 2,
+        "cid": 78
+    },
+    "Cowpea(Veg)": {
+        "gid": 6,
+        "cid": 75
+    },
+    "Crab": {
+        "gid": 13,
+        "cid": 471
+    },
+    "Cucumbar(Kheera)": {
+        "gid": 6,
+        "cid": 131
+    },
+    "Cummin Seed(Jeera)": {
+        "gid": 7,
+        "cid": 38
+    },
+    "Curry Leaf": {
+        "gid": 6,
+        "cid": 415
+    },
+    "Custard Apple(Sharifa)": {
+        "gid": 5,
+        "cid": 300
+    },
+    "Daila(Chandni)": {
+        "gid": 14,
+        "cid": 329
+    },
+    "Dal(Avare)": {
+        "gid": 2,
+        "cid": 77
+    },
+    "Dalda": {
+        "gid": 15,
+        "cid": 227
+    },
+    "Dates": {
+        "gid": 8,
+        "cid": 472
+    },
+    "Delha": {
+        "gid": 14,
+        "cid": 339
+    },
+    "Dhaincha": {
+        "gid": 10,
+        "cid": 57
+    },
+    "Double Beans": {
+        "gid": 6,
+        "cid": 421
+    },
+    "Dragon fruit": {
+        "gid": 5,
+        "cid": 424
+    },
+    "Drumstick": {
+        "gid": 6,
+        "cid": 140
+    },
+    "Dry Chillies": {
+        "gid": 7,
+        "cid": 113
+    },
+    "Dry Fish": {
+        "gid": 13,
+        "cid": 473
+    },
+    "Dry Fodder": {
+        "gid": 10,
+        "cid": 293
+    },
+    "Dry Grapes": {
+        "gid": 8,
+        "cid": 231
+    },
+    "Duck": {
+        "gid": 13,
+        "cid": 317
+    },
+    "Duster Beans": {
+        "gid": 6,
+        "cid": 135
+    },
+    "Egg": {
+        "gid": 13,
+        "cid": 314
+    },
+    "Egypian Clover(Barseem)": {
+        "gid": 10,
+        "cid": 308
+    },
+    "Elephant Yam(Suran)": {
+        "gid": 6,
+        "cid": 247
+    },
+    "Field Bean(Anumulu)": {
+        "gid": 6,
+        "cid": 474
+    },
+    "Field Gram": {
+        "gid": 2,
+        "cid": 475
+    },
+    "Field Pea": {
+        "gid": 6,
+        "cid": 53
+    },
+    "Fig (Dry)": {
+        "gid": 8,
+        "cid": 476
+    },
+    "Fig(Anjura/Anjeer)": {
+        "gid": 10,
+        "cid": 180
+    },
+    "Firewood": {
+        "gid": 12,
+        "cid": 166
+    },
+    "Fish": {
+        "gid": 13,
+        "cid": 313
+    },
+    "Flax seeds": {
+        "gid": 10,
+        "cid": 439
+    },
+    "Flower Broom": {
+        "gid": 12,
+        "cid": 312
+    },
+    "Foxtail Millet(Navane)": {
+        "gid": 1,
+        "cid": 104
+    },
+    "French Beans(Frasbean)": {
+        "gid": 6,
+        "cid": 249
+    },
+    "Galgal(Lemon)": {
+        "gid": 6,
+        "cid": 298
+    },
+    "Gamphrena": {
+        "gid": 14,
+        "cid": 400
+    },
+    "Garcinia": {
+        "gid": 5,
+        "cid": 477
+    },
+    "Garlic": {
+        "gid": 7,
+        "cid": 25
+    },
+    "Gerbera": {
+        "gid": 14,
+        "cid": 478
+    },
+    "Ghee": {
+        "gid": 15,
+        "cid": 206
+    },
+    "Gherkin": {
+        "gid": 6,
+        "cid": 479
+    },
+    "Ghost Pepper(King Chilli)": {
+        "gid": 6,
+        "cid": 480
+    },
+    "Giloy": {
+        "gid": 12,
+        "cid": 381
+    },
+    "Gingelly Oil": {
+        "gid": 15,
+        "cid": 229
+    },
+    "Ginger Seed": {
+        "gid": 7,
+        "cid": 481
+    },
+    "Ginger(Dry)": {
+        "gid": 7,
+        "cid": 27
+    },
+    "Ginger(Green)": {
+        "gid": 6,
+        "cid": 87
+    },
+    "Gladiolus Bulb": {
+        "gid": 14,
+        "cid": 311
+    },
+    "Gladiolus Cut Flower": {
+        "gid": 14,
+        "cid": 310
+    },
+    "Glardia": {
+        "gid": 14,
+        "cid": 391
+    },
+    "Goat": {
+        "gid": 13,
+        "cid": 178
+    },
+    "Goat Hair": {
+        "gid": 10,
+        "cid": 301
+    },
+    "Gond": {
+        "gid": 12,
+        "cid": 440
+    },
+    "Goose berry(Nellikkai)": {
+        "gid": 5,
+        "cid": 423
+    },
+    "Goosefoot": {
+        "gid": 6,
+        "cid": 482
+    },
+    "Gram Raw(Chholia)": {
+        "gid": 6,
+        "cid": 306
+    },
+    "Gramflour": {
+        "gid": 10,
+        "cid": 245
+    },
+    "Grapes": {
+        "gid": 5,
+        "cid": 22
+    },
+    "Green Avare(W)": {
+        "gid": 6,
+        "cid": 137
+    },
+    "Green Chilli": {
+        "gid": 6,
+        "cid": 73
+    },
+    "Green Fodder": {
+        "gid": 10,
+        "cid": 294
+    },
+    "Green Gram Dal(Moong Dal)": {
+        "gid": 2,
+        "cid": 219
+    },
+    "Green Gram(Moong)(Whole)": {
+        "gid": 2,
+        "cid": 9
+    },
+    "Green Peas": {
+        "gid": 2,
+        "cid": 46
+    },
+    "Green Tea": {
+        "gid": 9,
+        "cid": 483
+    },
+    "Grey Fruit": {
+        "gid": 5,
+        "cid": 484
+    },
+    "Ground Nut Oil": {
+        "gid": 15,
+        "cid": 221
+    },
+    "Ground Nut Seed": {
+        "gid": 3,
+        "cid": 222
+    },
+    "Groundnut": {
+        "gid": 3,
+        "cid": 10
+    },
+    "Groundnut pods(raw)": {
+        "gid": 6,
+        "cid": 263
+    },
+    "Groundnut(Split)": {
+        "gid": 3,
+        "cid": 265
+    },
+    "Guar": {
+        "gid": 6,
+        "cid": 62
+    },
+    "Guar Seed(Cluster Beans Seed)": {
+        "gid": 2,
+        "cid": 342
+    },
+    "Guava": {
+        "gid": 5,
+        "cid": 156
+    },
+    "Gudmar": {
+        "gid": 12,
+        "cid": 382
+    },
+    "Guggal": {
+        "gid": 12,
+        "cid": 383
+    },
+    "Gur(Jaggery)": {
+        "gid": 10,
+        "cid": 61
+    },
+    "Gurellu": {
+        "gid": 3,
+        "cid": 232
+    },
+    "Haralekai": {
+        "gid": 10,
+        "cid": 208
+    },
+    "Harrah": {
+        "gid": 12,
+        "cid": 441
+    },
+    "He Buffalo": {
+        "gid": 13,
+        "cid": 175
+    },
+    "Heliconia species": {
+        "gid": 14,
+        "cid": 403
+    },
+    "Hen": {
+        "gid": 13,
+        "cid": 316
+    },
+    "Hilsa": {
+        "gid": 10,
+        "cid": 485
+    },
+    "Hippe Seed": {
+        "gid": 12,
+        "cid": 108
+    },
+    "Hog Plum": {
+        "gid": 5,
+        "cid": 486
+    },
+    "Honey": {
+        "gid": 10,
+        "cid": 194
+    },
+    "Honge seed": {
+        "gid": 3,
+        "cid": 107
+    },
+    "Hybrid Cumbu": {
+        "gid": 1,
+        "cid": 102
+    },
+    "Indian Beans(Seam)": {
+        "gid": 6,
+        "cid": 250
+    },
+    "Indian Colza(Sarson)": {
+        "gid": 6,
+        "cid": 292
+    },
+    "Indian Sherbet Berry(Phalsa)": {
+        "gid": 5,
+        "cid": 487
+    },
+    "Irish": {
+        "gid": 14,
+        "cid": 394
+    },
+    "Isabgul(Psyllium)": {
+        "gid": 11,
+        "cid": 212
+    },
+    "Isbgol": {
+        "gid": 11,
+        "cid": 488
+    },
+    "Jack Fruit": {
+        "gid": 5,
+        "cid": 153
+    },
+    "Jackfruit Seed": {
+        "gid": 6,
+        "cid": 489
+    },
+    "Jaee": {
+        "gid": 1,
+        "cid": 442
+    },
+    "Jaffri": {
+        "gid": 14,
+        "cid": 335
+    },
+    "Jaggery": {
+        "gid": 10,
+        "cid": 123
+    },
+    "Jamamkhan": {
+        "gid": 6,
+        "cid": 147
+    },
+    "Jamun(Narale Hannu)": {
+        "gid": 5,
+        "cid": 155
+    },
+    "Jarbara": {
+        "gid": 14,
+        "cid": 323
+    },
+    "Jasmine": {
+        "gid": 14,
+        "cid": 187
+    },
+    "Javi": {
+        "gid": 10,
+        "cid": 207
+    },
+    "Jowar(Sorghum)": {
+        "gid": 1,
+        "cid": 5
+    },
+    "Jute": {
+        "gid": 4,
+        "cid": 16
+    },
+    "Jute Seed": {
+        "gid": 12,
+        "cid": 170
+    },
+    "Kabuli Chana(Chickpeas-White)": {
+        "gid": 2,
+        "cid": 309
+    },
+    "Kacholam": {
+        "gid": 7,
+        "cid": 268
+    },
+    "Kagda": {
+        "gid": 14,
+        "cid": 490
+    },
+    "Kakada": {
+        "gid": 14,
+        "cid": 188
+    },
+    "Kalihari": {
+        "gid": 12,
+        "cid": 385
+    },
+    "Kalmegh": {
+        "gid": 12,
+        "cid": 386
+    },
+    "Kankambra": {
+        "gid": 14,
+        "cid": 191
+    },
+    "Karamani": {
+        "gid": 2,
+        "cid": 99
+    },
+    "Karbuja(Musk Melon)": {
+        "gid": 5,
+        "cid": 157
+    },
+    "Kartali(Kantola)": {
+        "gid": 6,
+        "cid": 256
+    },
+    "Kevda": {
+        "gid": 14,
+        "cid": 410
+    },
+    "Kharif Mash": {
+        "gid": 10,
+        "cid": 50
+    },
+    "Khirni": {
+        "gid": 5,
+        "cid": 443
+    },
+    "Khoya": {
+        "gid": 10,
+        "cid": 319
+    },
+    "Kidney Beans(Rajma)": {
+        "gid": 2,
+        "cid": 491
+    },
+    "Kinnow": {
+        "gid": 5,
+        "cid": 284
+    },
+    "Kiwi Fruit": {
+        "gid": 5,
+        "cid": 492
+    },
+    "Knool Khol": {
+        "gid": 6,
+        "cid": 149
+    },
+    "Kodo Millet(Varagu)": {
+        "gid": 1,
+        "cid": 101
+    },
+    "Kooth": {
+        "gid": 12,
+        "cid": 388
+    },
+    "Kuchur": {
+        "gid": 10,
+        "cid": 200
+    },
+    "Kuchur - Kusum Seed": {
+        "gid": 3,
+        "cid": 493
+    },
+    "Kulthi(Horse Gram)": {
+        "gid": 2,
+        "cid": 98
+    },
+    "Kutki": {
+        "gid": 1,
+        "cid": 344
+    },
+    "Ladies Finger": {
+        "gid": 6,
+        "cid": 127
+    },
+    "Laha": {
+        "gid": 3,
+        "cid": 444
+    },
+    "Lak(Teora)": {
+        "gid": 2,
+        "cid": 81
+    },
+    "Large Cardamom": {
+        "gid": 7,
+        "cid": 494
+    },
+    "Leafy Vegetable": {
+        "gid": 6,
+        "cid": 143
+    },
+    "Leek": {
+        "gid": 6,
+        "cid": 495
+    },
+    "Lemon": {
+        "gid": 6,
+        "cid": 261
+    },
+    "Lemongrass": {
+        "gid": 11,
+        "cid": 496
+    },
+    "Lentil(Masur)(Whole)": {
+        "gid": 2,
+        "cid": 52
+    },
+    "Lesser Yam": {
+        "gid": 6,
+        "cid": 497
+    },
+    "Lilly": {
+        "gid": 14,
+        "cid": 325
+    },
+    "Lime": {
+        "gid": 5,
+        "cid": 151
+    },
+    "Limonia(status)": {
+        "gid": 14,
+        "cid": 399
+    },
+    "Linseed": {
+        "gid": 3,
+        "cid": 56
+    },
+    "Lint": {
+        "gid": 4,
+        "cid": 233
+    },
+    "Litchi": {
+        "gid": 5,
+        "cid": 299
+    },
+    "Little Millet ": {
+        "gid": 1,
+        "cid": 498
+    },
+    "Little gourd(Kundru)": {
+        "gid": 6,
+        "cid": 253
+    },
+    "Long Melon(Kakri)": {
+        "gid": 6,
+        "cid": 255
+    },
+    "Lotus": {
+        "gid": 14,
+        "cid": 332
+    },
+    "Lotus Sticks": {
+        "gid": 6,
+        "cid": 287
+    },
+    "Lukad": {
+        "gid": 5,
+        "cid": 285
+    },
+    "Lupine": {
+        "gid": 14,
+        "cid": 408
+    },
+    "Ma.Inji": {
+        "gid": 10,
+        "cid": 433
+    },
+    "Mace": {
+        "gid": 7,
+        "cid": 91
+    },
+    "Mahedi": {
+        "gid": 10,
+        "cid": 340
+    },
+    "Mahua": {
+        "gid": 11,
+        "cid": 283
+    },
+    "Mahua Seed(Hippe seed)": {
+        "gid": 12,
+        "cid": 318
+    },
+    "Maida Atta": {
+        "gid": 10,
+        "cid": 241
+    },
+    "Maize": {
+        "gid": 1,
+        "cid": 4
+    },
+    "Mango": {
+        "gid": 5,
+        "cid": 20
+    },
+    "Mango(Raw-Ripe)": {
+        "gid": 6,
+        "cid": 144
+    },
+    "Mangosteen": {
+        "gid": 5,
+        "cid": 499
+    },
+    "Maragensu": {
+        "gid": 10,
+        "cid": 184
+    },
+    "Marasebu": {
+        "gid": 5,
+        "cid": 152
+    },
+    "Marget": {
+        "gid": 14,
+        "cid": 336
+    },
+    "Marigold(Calcutta)": {
+        "gid": 14,
+        "cid": 193
+    },
+    "Marigold(loose)": {
+        "gid": 14,
+        "cid": 334
+    },
+    "Marikozhunthu": {
+        "gid": 14,
+        "cid": 431
+    },
+    "Mash": {
+        "gid": 10,
+        "cid": 49
+    },
+    "Mashrooms": {
+        "gid": 6,
+        "cid": 288
+    },
+    "Masur Dal": {
+        "gid": 2,
+        "cid": 213
+    },
+    "Mataki": {
+        "gid": 2,
+        "cid": 79
+    },
+    "Meal Maker (Soya Chunks)": {
+        "gid": 6,
+        "cid": 500
+    },
+    "Mentha Oil": {
+        "gid": 11,
+        "cid": 501
+    },
+    "Methi Seeds": {
+        "gid": 7,
+        "cid": 43
+    },
+    "Methi(Leaves)": {
+        "gid": 6,
+        "cid": 42
+    },
+    "Millets": {
+        "gid": 10,
+        "cid": 195
+    },
+    "Mint(Pudina)": {
+        "gid": 6,
+        "cid": 307
+    },
+    "Moath Dal": {
+        "gid": 2,
+        "cid": 452
+    },
+    "Mousambi(Sweet Lime)": {
+        "gid": 5,
+        "cid": 64
+    },
+    "Muesli": {
+        "gid": 11,
+        "cid": 375
+    },
+    "Mulberry": {
+        "gid": 5,
+        "cid": 502
+    },
+    "Muleti": {
+        "gid": 11,
+        "cid": 357
+    },
+    "Muskmelon Seeds": {
+        "gid": 7,
+        "cid": 445
+    },
+    "Mustard": {
+        "gid": 3,
+        "cid": 12
+    },
+    "Mustard Oil": {
+        "gid": 15,
+        "cid": 274
+    },
+    "Myrobolan(Harad)": {
+        "gid": 11,
+        "cid": 120
+    },
+    "Nargasi": {
+        "gid": 10,
+        "cid": 202
+    },
+    "Nearle Hannu": {
+        "gid": 5,
+        "cid": 181
+    },
+    "Neem Fruits": {
+        "gid": 11,
+        "cid": 503
+    },
+    "Neem Seed": {
+        "gid": 12,
+        "cid": 109
+    },
+    "Nelli Kai": {
+        "gid": 5,
+        "cid": 182
+    },
+    "Nerium": {
+        "gid": 14,
+        "cid": 429
+    },
+    "Niger Seed(Ramtil)": {
+        "gid": 3,
+        "cid": 83
+    },
+    "Nutmeg": {
+        "gid": 7,
+        "cid": 90
+    },
+    "Onion": {
+        "gid": 6,
+        "cid": 23
+    },
+    "Onion Green": {
+        "gid": 6,
+        "cid": 305
+    },
+    "Orange": {
+        "gid": 5,
+        "cid": 18
+    },
+    "Orchid": {
+        "gid": 14,
+        "cid": 328
+    },
+    "Other Pulses": {
+        "gid": 2,
+        "cid": 82
+    },
+    "Other green and fresh vegetables": {
+        "gid": 6,
+        "cid": 349
+    },
+    "Ox": {
+        "gid": 13,
+        "cid": 172
+    },
+    "Paddy(Basmati)": {
+        "gid": 1,
+        "cid": 343
+    },
+    "Paddy(Common)": {
+        "gid": 1,
+        "cid": 2
+    },
+    "Palash flowers": {
+        "gid": 11,
+        "cid": 370
+    },
+    "Papaya": {
+        "gid": 5,
+        "cid": 59
+    },
+    "Papaya(Raw)": {
+        "gid": 6,
+        "cid": 264
+    },
+    "Passion Fruit": {
+        "gid": 5,
+        "cid": 504
+    },
+    "Patti Calcutta": {
+        "gid": 14,
+        "cid": 333
+    },
+    "Peach": {
+        "gid": 5,
+        "cid": 281
+    },
+    "Pear(Marasebu)": {
+        "gid": 5,
+        "cid": 280
+    },
+    "Peas Wet": {
+        "gid": 6,
+        "cid": 146
+    },
+    "Peas cod": {
+        "gid": 6,
+        "cid": 259
+    },
+    "Peas(Dry)": {
+        "gid": 2,
+        "cid": 295
+    },
+    "Pegeon Pea(Arhar Fali)": {
+        "gid": 6,
+        "cid": 252
+    },
+    "Pepper garbled": {
+        "gid": 7,
+        "cid": 93
+    },
+    "Pepper ungarbled": {
+        "gid": 7,
+        "cid": 94
+    },
+    "Perandai": {
+        "gid": 6,
+        "cid": 418
+    },
+    "Persimon(Japani Fal)": {
+        "gid": 5,
+        "cid": 277
+    },
+    "Phuee(Leafy Veg)": {
+        "gid": 6,
+        "cid": 505
+    },
+    "Pigs": {
+        "gid": 13,
+        "cid": 179
+    },
+    "Pincushion Flower": {
+        "gid": 14,
+        "cid": 506
+    },
+    "Pine Nut(Chilgoza /Niyoza)": {
+        "gid": 8,
+        "cid": 507
+    },
+    "Pineapple": {
+        "gid": 5,
+        "cid": 21
+    },
+    "Pista(Pistachio)": {
+        "gid": 8,
+        "cid": 508
+    },
+    "Plum": {
+        "gid": 5,
+        "cid": 279
+    },
+    "Pointed gourd(Parval)": {
+        "gid": 6,
+        "cid": 254
+    },
+    "Pokcha Leafy Veg": {
+        "gid": 6,
+        "cid": 509
+    },
+    "Polherb": {
+        "gid": 10,
+        "cid": 197
+    },
+    "Pomegranate": {
+        "gid": 5,
+        "cid": 160
+    },
+    "Poppy capsules": {
+        "gid": 11,
+        "cid": 354
+    },
+    "Potato": {
+        "gid": 6,
+        "cid": 24
+    },
+    "Prawn": {
+        "gid": 13,
+        "cid": 510
+    },
+    "Proso Millet": {
+        "gid": 1,
+        "cid": 511
+    },
+    "Pumpkin": {
+        "gid": 6,
+        "cid": 70
+    },
+    "Pundi": {
+        "gid": 10,
+        "cid": 210
+    },
+    "Pundi Seed": {
+        "gid": 12,
+        "cid": 110
+    },
+    "Pupadia": {
+        "gid": 11,
+        "cid": 376
+    },
+    "Purslane": {
+        "gid": 6,
+        "cid": 512
+    },
+    "Quince(Nakh)": {
+        "gid": 5,
+        "cid": 513
+    },
+    "Raddish": {
+        "gid": 6,
+        "cid": 133
+    },
+    "Ragi(Finger Millet)": {
+        "gid": 1,
+        "cid": 30
+    },
+    "Raibel": {
+        "gid": 14,
+        "cid": 338
+    },
+    "Rajgir": {
+        "gid": 10,
+        "cid": 205
+    },
+    "Rala": {
+        "gid": 1,
+        "cid": 446
+    },
+    "Ram": {
+        "gid": 13,
+        "cid": 235
+    },
+    "Rambutan": {
+        "gid": 5,
+        "cid": 514
+    },
+    "Ramphal": {
+        "gid": 5,
+        "cid": 447
+    },
+    "Rat Tail Radish(Mogari)": {
+        "gid": 6,
+        "cid": 258
+    },
+    "Ratanjot": {
+        "gid": 12,
+        "cid": 389
+    },
+    "Raw Biomass(Agro Residue)": {
+        "gid": 10,
+        "cid": 515
+    },
+    "Raya": {
+        "gid": 10,
+        "cid": 54
+    },
+    "Rayee": {
+        "gid": 7,
+        "cid": 448
+    },
+    "Red Cabbage": {
+        "gid": 6,
+        "cid": 422
+    },
+    "Red Gourd": {
+        "gid": 6,
+        "cid": 516
+    },
+    "Red Gram": {
+        "gid": 2,
+        "cid": 7
+    },
+    "Resinwood": {
+        "gid": 12,
+        "cid": 272
+    },
+    "Ribbed Celery": {
+        "gid": 6,
+        "cid": 517
+    },
+    "Riccbcan": {
+        "gid": 10,
+        "cid": 51
+    },
+    "Rice": {
+        "gid": 1,
+        "cid": 3
+    },
+    "Rice Bean": {
+        "gid": 2,
+        "cid": 518
+    },
+    "Ridge Gourd(Permal/Hybrid Gourd)": {
+        "gid": 6,
+        "cid": 519
+    },
+    "Ridgeguard(Tori)": {
+        "gid": 6,
+        "cid": 132
+    },
+    "Rose(Local)": {
+        "gid": 14,
+        "cid": 321
+    },
+    "Rose(Loose))": {
+        "gid": 14,
+        "cid": 186
+    },
+    "Rose(Tata)": {
+        "gid": 14,
+        "cid": 320
+    },
+    "Round Chilli": {
+        "gid": 6,
+        "cid": 520
+    },
+    "Round gourd": {
+        "gid": 6,
+        "cid": 257
+    },
+    "Rubber": {
+        "gid": 10,
+        "cid": 95
+    },
+    "Sabu Dan": {
+        "gid": 10,
+        "cid": 243
+    },
+    "Safflower": {
+        "gid": 3,
+        "cid": 48
+    },
+    "Saffron": {
+        "gid": 7,
+        "cid": 286
+    },
+    "Sajje": {
+        "gid": 1,
+        "cid": 225
+    },
+    "Sal Seeds": {
+        "gid": 3,
+        "cid": 521
+    },
+    "Salix-Pursi(Willow)": {
+        "gid": 12,
+        "cid": 522
+    },
+    "Same/Savi": {
+        "gid": 1,
+        "cid": 105
+    },
+    "Sandalwood": {
+        "gid": 12,
+        "cid": 379
+    },
+    "Sarasum": {
+        "gid": 10,
+        "cid": 204
+    },
+    "Season Leaves": {
+        "gid": 6,
+        "cid": 230
+    },
+    "Seegu": {
+        "gid": 10,
+        "cid": 209
+    },
+    "Seemebadnekai": {
+        "gid": 6,
+        "cid": 148
+    },
+    "Seetapal": {
+        "gid": 5,
+        "cid": 162
+    },
+    "Sem": {
+        "gid": 6,
+        "cid": 523
+    },
+    "Sesamum(Sesame,Gingelly,Til)": {
+        "gid": 3,
+        "cid": 11
+    },
+    "She Buffalo": {
+        "gid": 13,
+        "cid": 176
+    },
+    "She Goat": {
+        "gid": 13,
+        "cid": 236
+    },
+    "Sheep": {
+        "gid": 13,
+        "cid": 177
+    },
+    "Shrimp": {
+        "gid": 13,
+        "cid": 524
+    },
+    "Siddota": {
+        "gid": 5,
+        "cid": 154
+    },
+    "Silk Cocoon": {
+        "gid": 13,
+        "cid": 525
+    },
+    "Siru Kizhagu": {
+        "gid": 6,
+        "cid": 419
+    },
+    "Skin And Hide": {
+        "gid": 10,
+        "cid": 185
+    },
+    "Snakeguard": {
+        "gid": 6,
+        "cid": 128
+    },
+    "Snow Mountain Garlic": {
+        "gid": 6,
+        "cid": 526
+    },
+    "Soanf": {
+        "gid": 7,
+        "cid": 114
+    },
+    "Soapnut(Antawala/Retha)": {
+        "gid": 12,
+        "cid": 167
+    },
+    "Soha": {
+        "gid": 3,
+        "cid": 449
+    },
+    "Soji": {
+        "gid": 1,
+        "cid": 239
+    },
+    "Sompu": {
+        "gid": 10,
+        "cid": 203
+    },
+    "Soursop": {
+        "gid": 5,
+        "cid": 527
+    },
+    "Soyabean": {
+        "gid": 3,
+        "cid": 13
+    },
+    "Spinach": {
+        "gid": 6,
+        "cid": 290
+    },
+    "Sponge gourd": {
+        "gid": 6,
+        "cid": 262
+    },
+    "Squash(Chappal Kadoo)": {
+        "gid": 6,
+        "cid": 282
+    },
+    "Star Fruit(Kamraikh)": {
+        "gid": 5,
+        "cid": 528
+    },
+    "Strawberry": {
+        "gid": 5,
+        "cid": 529
+    },
+    "Sugar": {
+        "gid": 10,
+        "cid": 44
+    },
+    "Sugar Snap Peas": {
+        "gid": 6,
+        "cid": 530
+    },
+    "Sugarcane": {
+        "gid": 10,
+        "cid": 122
+    },
+    "Sundaikai": {
+        "gid": 6,
+        "cid": 417
+    },
+    "Sunflower": {
+        "gid": 3,
+        "cid": 14
+    },
+    "Sunflower Seed": {
+        "gid": 3,
+        "cid": 238
+    },
+    "Sunhemp": {
+        "gid": 4,
+        "cid": 117
+    },
+    "Suram": {
+        "gid": 10,
+        "cid": 199
+    },
+    "Surat Beans(Papadi)": {
+        "gid": 6,
+        "cid": 251
+    },
+    "Suva(Dill Seed)": {
+        "gid": 3,
+        "cid": 211
+    },
+    "Suvarna Gadde": {
+        "gid": 6,
+        "cid": 150
+    },
+    "Swan Phali(Flat Bean)": {
+        "gid": 6,
+        "cid": 531
+    },
+    "Swan Plant (Green Herb)": {
+        "gid": 11,
+        "cid": 532
+    },
+    "Swanflower": {
+        "gid": 14,
+        "cid": 533
+    },
+    "Sweet Corn ": {
+        "gid": 1,
+        "cid": 534
+    },
+    "Sweet Potato": {
+        "gid": 6,
+        "cid": 124
+    },
+    "Sweet Pumpkin": {
+        "gid": 6,
+        "cid": 145
+    },
+    "Sweet Saag": {
+        "gid": 6,
+        "cid": 535
+    },
+    "Sweet Sultan": {
+        "gid": 14,
+        "cid": 395
+    },
+    "T.V. Cumbu": {
+        "gid": 1,
+        "cid": 103
+    },
+    "Tamarind Fruit": {
+        "gid": 12,
+        "cid": 215
+    },
+    "Tamarind Seed": {
+        "gid": 12,
+        "cid": 168
+    },
+    "Tapioca": {
+        "gid": 6,
+        "cid": 85
+    },
+    "Taramira": {
+        "gid": 3,
+        "cid": 63
+    },
+    "Taro (Arvi) Leaves": {
+        "gid": 6,
+        "cid": 537
+    },
+    "Taro (Arvi) Stem": {
+        "gid": 6,
+        "cid": 538
+    },
+    "Tea": {
+        "gid": 9,
+        "cid": 40
+    },
+    "Tender Coconut": {
+        "gid": 5,
+        "cid": 161
+    },
+    "Tevada": {
+        "gid": 2,
+        "cid": 539
+    },
+    "Thinai(Italian Millet)": {
+        "gid": 2,
+        "cid": 100
+    },
+    "Thogrikai": {
+        "gid": 6,
+        "cid": 142
+    },
+    "Thondekai": {
+        "gid": 6,
+        "cid": 134
+    },
+    "Tinda": {
+        "gid": 6,
+        "cid": 297
+    },
+    "Tobacco": {
+        "gid": 11,
+        "cid": 119
+    },
+    "Tomato": {
+        "gid": 6,
+        "cid": 65
+    },
+    "Torchwood": {
+        "gid": 12,
+        "cid": 273
+    },
+    "Toria": {
+        "gid": 3,
+        "cid": 55
+    },
+    "Tube Flower": {
+        "gid": 14,
+        "cid": 192
+    },
+    "Tube Rose(Double)": {
+        "gid": 14,
+        "cid": 330
+    },
+    "Tube Rose(Loose)": {
+        "gid": 14,
+        "cid": 337
+    },
+    "Tube Rose(Single)": {
+        "gid": 14,
+        "cid": 324
+    },
+    "Tulasi": {
+        "gid": 10,
+        "cid": 432
+    },
+    "Turmeric": {
+        "gid": 7,
+        "cid": 35
+    },
+    "Turmeric(raw)": {
+        "gid": 6,
+        "cid": 260
+    },
+    "Turnip": {
+        "gid": 6,
+        "cid": 289
+    },
+    "Vatsanabha": {
+        "gid": 11,
+        "cid": 366
+    },
+    "Walnut": {
+        "gid": 8,
+        "cid": 291
+    },
+    "Water Apple": {
+        "gid": 5,
+        "cid": 425
+    },
+    "Water Melon": {
+        "gid": 5,
+        "cid": 60
+    },
+    "Water Plant(Kaseru)": {
+        "gid": 10,
+        "cid": 540
+    },
+    "Water chestnut": {
+        "gid": 10,
+        "cid": 450
+    },
+    "Wax": {
+        "gid": 12,
+        "cid": 451
+    },
+    "Wheat": {
+        "gid": 1,
+        "cid": 1
+    },
+    "Wheat Atta": {
+        "gid": 10,
+        "cid": 240
+    },
+    "White Muesli": {
+        "gid": 11,
+        "cid": 358
+    },
+    "White Peas": {
+        "gid": 2,
+        "cid": 341
+    },
+    "White Pumpkin": {
+        "gid": 6,
+        "cid": 130
+    },
+    "Wild Bean / Pod": {
+        "gid": 2,
+        "cid": 541
+    },
+    "Wild Cucumber": {
+        "gid": 6,
+        "cid": 542
+    },
+    "Wild Garlic / Shoots": {
+        "gid": 6,
+        "cid": 543
+    },
+    "Wild Melon": {
+        "gid": 5,
+        "cid": 544
+    },
+    "Wild Spinach": {
+        "gid": 6,
+        "cid": 545
+    },
+    "Wild lemon": {
+        "gid": 5,
+        "cid": 427
+    },
+    "Wood": {
+        "gid": 12,
+        "cid": 163
+    },
+    "Wood Apple": {
+        "gid": 5,
+        "cid": 428
+    },
+    "Wool": {
+        "gid": 10,
+        "cid": 296
+    },
+    "Yam": {
+        "gid": 10,
+        "cid": 201
+    },
+    "Yam Bean / Mexican Turnip(Bankla)": {
+        "gid": 6,
+        "cid": 546
+    },
+    "Yam(Ratalu)": {
+        "gid": 6,
+        "cid": 248
+    },
+    "balsam": {
+        "gid": 14,
+        "cid": 411
+    },
+    "basil": {
+        "gid": 11,
+        "cid": 364
+    },
+    "buttery": {
+        "gid": 2,
+        "cid": 345
+    },
+    "cineraria": {
+        "gid": 14,
+        "cid": 396
+    },
+    "dhawai flowers": {
+        "gid": 11,
+        "cid": 371
+    },
+    "dianthus": {
+        "gid": 14,
+        "cid": 405
+    },
+    "dried mango": {
+        "gid": 7,
+        "cid": 352
+    },
+    "golden rod": {
+        "gid": 14,
+        "cid": 404
+    },
+    "gulli": {
+        "gid": 12,
+        "cid": 390
+    },
+    "gypsophila": {
+        "gid": 14,
+        "cid": 398
+    },
+    "hydrangea": {
+        "gid": 14,
+        "cid": 402
+    },
+    "kakatan": {
+        "gid": 14,
+        "cid": 430
+    },
+    "karanja seeds": {
+        "gid": 11,
+        "cid": 368
+    },
+    "kokum": {
+        "gid": 12,
+        "cid": 387
+    },
+    "kutki": {
+        "gid": 11,
+        "cid": 355
+    },
+    "liquor turmeric": {
+        "gid": 11,
+        "cid": 361
+    },
+    "macoy": {
+        "gid": 11,
+        "cid": 356
+    },
+    "mango powder": {
+        "gid": 7,
+        "cid": 351
+    },
+    "nigella": {
+        "gid": 7,
+        "cid": 353
+    },
+    "nigella seeds": {
+        "gid": 11,
+        "cid": 374
+    },
+    "pippali": {
+        "gid": 11,
+        "cid": 360
+    },
+    "poppy seeds": {
+        "gid": 7,
+        "cid": 350
+    },
+    "salvia": {
+        "gid": 14,
+        "cid": 397
+    },
+    "sanay": {
+        "gid": 11,
+        "cid": 362
+    },
+    "sevanti": {
+        "gid": 14,
+        "cid": 393
+    },
+    "spikenard": {
+        "gid": 12,
+        "cid": 384
+    },
+    "stevia": {
+        "gid": 11,
+        "cid": 369
+    },
+    "stone pulverizer": {
+        "gid": 11,
+        "cid": 359
+    },
+    "sweet william": {
+        "gid": 14,
+        "cid": 406
+    },
+    "tulip": {
+        "gid": 14,
+        "cid": 392
+    },
+    "vadang": {
+        "gid": 11,
+        "cid": 365
+    }
+}

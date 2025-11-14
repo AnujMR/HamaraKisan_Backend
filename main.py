@@ -13,6 +13,7 @@ import json
 import os
 import random
 import requests
+from store import comm_id
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -42,8 +43,10 @@ def getTableData():
     stateName=body["state"]
     comm=body["comm"]
     date=body["date"]
+    group_id=comm_id[comm]["gid"]
+    commid=comm_id[comm]["cid"]
 
-    url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date=2025-11-12&commodityGroupId=1&commodityId=1&includeExcel=false"
+    url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date=2025-11-12&commodityGroupId="+str(group_id)+"&commodityId="+str(commid)+"&includeExcel=false"
 
     response=requests.get(url).json()
 
@@ -68,3 +71,5 @@ def getTableData():
             "date":date
         })
     return {"mandis":mandis}
+
+
