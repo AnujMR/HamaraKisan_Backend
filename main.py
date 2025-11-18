@@ -149,3 +149,99 @@ def unpin_mandi(user_id):
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
+
+def preprocess_image(img_path):
+
+    image = Image.open(img_path).convert("RGB")
+    # Resize to 160x160 (as required by your model)
+    image = image.resize((160, 160))
+    # Convert to numpy array
+    img_array = np.array(image)
+    # Add batch dimension
+    img_array = np.expand_dims(img_array, axis=0)
+    return img_array
+
+@app.route("/predict_disease",methods=["get"])
+def predict_disease():
+    id_token=request.get_json("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        # prediction = model.predict([request.json.get("data")])
+        pred = model.predict(preprocess_image('leaf4 .png'))
+        predicted_class = np.argmax(pred[0])
+        disease_name = class_names[predicted_class]
+        print(disease_name)
+        return f"Prediction: {disease_name}"
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+
+
+@app.route("/addRecord/<user_id>",methods=["POST"])
+def addRecord(user_id):
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        body=request.get_json()
+        newEntry={}
+        newEntry["commodity"]=body["commodity"]
+        newEntry["date"]=body["date"]
+        newEntry["price"]=body["price"]
+        newEntry["quantity"]=body["quantity"]
+        newEntry["total"]=body["price"]*body["quantity"]
+
+        doc_ref=db.collection("dashboard").document(user_id)
+
+        prevData=doc_ref.get().to_dict().get("data")
+        rand=random.randint(10000, 99999)
+        newEntry["index"]=user_id+str(rand)
+        prevData.append(newEntry)
+        print(prevData)
+        doc_ref.update({
+            "data": prevData
+        })
+        return jsonify({
+            "success": True,
+            "message": "Entry Created successfully!",
+            "data": prevData
+        }), 200
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
+
+@app.route("/deleteRecord/<user_id>",methods=["POST"])
+def deleteRecord(user_id):
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        body=request.get_json()
+        index=body["index"]
+        doc_ref=db.collection("dashboard").document(user_id)
+        data=doc_ref.get().to_dict().get("data")
+        print(data)
+        updatedData = [m for m in data if m.get("index") != index]
+        doc_ref.update({
+            "pinnedMandis": updatedData
+        })
+        return jsonify({
+            "success": True,
+            "message": "Updated records!",
+            "pinnedMandis": updatedData
+        }), 200
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
