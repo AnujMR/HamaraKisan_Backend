@@ -14,7 +14,7 @@ import json
 import os
 import random
 import requests
-from store import comm_id
+from store import comm_id, state_market_map
 from google import genai
 from dotenv import load_dotenv
 load_dotenv()
@@ -64,6 +64,7 @@ def getTableData():
             continue
         d = m["data"][0] 
         mandis.append({
+            "market_id": str(state_market_map[body["state"]][m["marketName"]]),
             "market_name": m["marketName"],
             "min_price": d["minimumPrice"],
             "max_price": d["maximumPrice"],
@@ -76,3 +77,48 @@ def getTableData():
         })
     return {"mandis":mandis}
 
+# pin a mandi (Tested Working)
+@app.route("/pin_mandi/<user_id>", methods=["POST"])
+def pin_mandi(user_id):
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        data = request.get_json() 
+        doc_ref = db.collection("users").document(user_id)
+        mandi_id = data["market_id"]
+        marketName = data["marketName"]
+        state = data["state"]
+        # district = data["district"]
+        user_doc = doc_ref.get()
+        if not user_doc.exists:
+            return jsonify({"success": False, "message": "User not found"}), 404
+        prevPinnedMandis = user_doc.to_dict().get("pinnedMandis") or []
+
+        if any(mandi.get("id") == mandi_id for mandi in prevPinnedMandis):
+            return jsonify({
+                "success": False,
+                "message": f"Mandi '{marketName}' is already pinned.",
+                "pinnedMandis": prevPinnedMandis
+            }), 400
+        prevPinnedMandis.append({
+            "state": state,
+            # "district": district,
+            "id": mandi_id,
+            "marketName": marketName
+        })
+        doc_ref.update({
+            "pinnedMandis": prevPinnedMandis
+        })
+        return jsonify({
+            "success": True,
+            "message": "Mandi pinned successfully!",
+            "pinnedMandis": prevPinnedMandis
+        }), 200
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
