@@ -20,7 +20,7 @@ def getTableData(state,district,commodity_name,startDate,endDate):
     response = requests.get(url, headers=headers)
     print("Response status:", response.status_code)
     print("Response length:", len(response.text))
-    print("HTML snippet:", response.text[:500])
+    print("HTML snippet:", response.text[:1000])
 
     soup = BeautifulSoup(response.text, "html.parser")
     # pprint(soup.find("select", {"id":"ddlCommodity"}))

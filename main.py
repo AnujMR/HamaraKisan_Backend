@@ -441,7 +441,7 @@ def preprocess_image(uploaded_file):
 def getRemedyFromAi(disease):
     api_key = os.getenv("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
-    prompt = f"You are a farming expert. My crop in my farm has {disease} disease. Suggest me the remedy for it along with recommended pestisides. Give formal, precise response without any jargon. No need to greet or introduce yourself. Just give me the remedy in brief."
+    prompt = f"You are a farming expert. My crop in my farm has {disease} disease. Suggest me the remedy for it along with reasons of disease and recommended pestisides. Give formal, precise response without any jargon. No need to greet or introduce yourself. Just give me the remedy in brief."
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=prompt,
