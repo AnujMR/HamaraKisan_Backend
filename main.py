@@ -122,3 +122,30 @@ def pin_mandi(user_id):
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
+
+@app.route("/unpinMandi/<user_id>",methods=["POST"])
+def unpin_mandi(user_id):
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        auth.verify_id_token(id_token)
+        body=request.get_json()
+        mandi_id=body["id"]
+        doc_ref=db.collection("users").document(user_id)
+        pinnedMandis=doc_ref.get().to_dict().get("pinnedMandis")
+        updated_pinnedMandis = [m for m in pinnedMandis if m.get("id") != mandi_id]
+        doc_ref.update({
+            "pinnedMandis": updated_pinnedMandis
+        })
+        return jsonify({
+            "success": True,
+            "message": "Mandi UnPinned successfully!",
+            "pinnedMandis": updated_pinnedMandis
+        }), 200
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
