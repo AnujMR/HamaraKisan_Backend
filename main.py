@@ -37,6 +37,10 @@ firebase_admin.initialize_app(cred)
 #firestore handle
 db=firestore.client()
 
+#to convert ISO timestamp to date only
+def strip_time(dt):
+    return dt.split("T")[0]
+
 @app.route("/")
 def home():
     return "Hello, This is the backend for Hamara Kisan!"
@@ -302,3 +306,30 @@ def mainGraph(user_id):
             res[comm] = foracomm
 
     return jsonify(res)
+
+
+#dashboard bar graph
+@app.route('/dashboardgraphs/<user_id>',methods=["POST"])
+def getGraphs(user_id):
+    doc_ref=db.collection("dashboard").document(user_id)
+    data=doc_ref.get().to_dict()
+    bar={}
+    data=data['data']
+    sorted_data = sorted(data, key=lambda x: x["date"], reverse=True)
+    for entry in data:
+        comm = entry['commodity']
+        total = entry['total']
+        bar[comm] = bar.get(comm, 0) + total
+    latest_10 = sorted_data[:10]
+    line= [{
+        "commodity": item["commodity"],
+        "total": item["total"],
+        "date": strip_time(item["date"])}
+        for item in latest_10
+    ]
+    return jsonify({"line":line,"bar":bar})
+
+@app.route("/top5mandis",methods=["POST"])
+def top5mandis():
+    body=request.get_json()
+    state=body["state"]
