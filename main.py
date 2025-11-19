@@ -379,7 +379,69 @@ def pinnedmanditable(user_id):
     return jsonify(res)
 
 
-@app.route("/top5mandis",methods=["POST"])
+#homepage graphs
+@app.route("/homepagegraphs",methods=["POST"])
 def top5mandis():
     body=request.get_json()
     state=body["state"]
+    comm=body["comm"]
+    today = datetime.today()
+    state_id=state_id_map[state]
+    result={}
+    for i in range(7):
+        day=today-timedelta(days=i)
+        date=day.strftime("%Y-%m-%d")
+        # print(date)
+        url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/commodity-wise/daily-report-state?date="+str(date)+"&stateIds="+str(state_id)+"&includeExcel=false"
+        response = requests.get(url).json()
+        data=response["markets"]
+        
+        for market in data:
+            market_name=market["marketName"]
+            found_prices=[]
+            for group in market["commodityGroups"]:
+                for commodity in group["commodities"]:
+                    if commodity["commodityName"].lower() == comm.lower():
+                        for entry in commodity["data"]:
+                            if "modalPrice" in entry:
+                                found_prices.append(entry["modalPrice"])
+            
+            if not found_prices:
+                continue
+            avg_price = sum(found_prices) / len(found_prices)
+            if market_name not in result:
+                result[market_name] = {}
+            result[market_name][date] = round(avg_price, 2)
+    # return jsonify(result)
+    mandi_avg = {}
+    for mandi, dates in result.items():
+        prices = [p for p in dates.values() if isinstance(p, (int, float))]
+        if not prices:
+            continue
+        avg_price = sum(prices) / len(prices)
+        mandi_avg[mandi] = round(avg_price,2)
+    top_5 = dict(sorted(mandi_avg.items(), key=lambda x: x[1], reverse=True)[:5])
+    # print(top_5)
+    top_5_trend={}
+    for mandi_name in top_5.keys():
+        print(mandi_name)
+        top_5_trend[mandi_name]=result[mandi_name]
+
+    #preprocessing of the top_5_trend
+    processed={}
+    last_7_days = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7)]
+    last_7_days.reverse()
+    for mandi, prices in top_5_trend.items():
+        available_prices = list(prices.values())
+        avg_price = sum(available_prices) / len(available_prices)
+        filled = {}
+        for d in last_7_days:
+            if d in prices:
+                filled[d] = prices[d]    
+            else:
+                filled[d] = round(avg_price, 2) 
+
+        processed[mandi] = filled
+    return jsonify({"barInfo":top_5,"lineInfo":processed})
+
+        
