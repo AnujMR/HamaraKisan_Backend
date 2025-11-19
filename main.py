@@ -261,36 +261,44 @@ def deleteRecord(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
     
-#Main graph trend for all the pinnedMandis for all the interested commodities
-@app.route("/maingraph/<user_id>",methods=["POST"])
+# Main graph trend for all the pinnedMandis for all the interested commodities
+@app.route("/maingraph/<user_id>", methods=["POST"])
 def mainGraph(user_id):
-    doc_ref=db.collection("users").document(user_id)
-    data=doc_ref.get().to_dict()
-    interested_comms=data.get("interestedCom")
-    pinned_mandis=data.get("pinnedMandis")
-    res={}
-
-
+    doc_ref = db.collection("users").document(user_id)
+    data = doc_ref.get().to_dict()
+    interested_comms = data.get("interestedCom")
+    pinned_mandis = data.get("pinnedMandis")
+    res = {}
     for comm in interested_comms:
-        commid=comm_id[comm]["cid"]
-        foracomm={}
+        commid = comm_id[comm]["cid"]
+        foracomm = {}
         for mandi in pinned_mandis:
-            market_id=mandi["id"]
-            state=mandi["state"]
-            state_id=state_id_map[state]
-            marketName=mandi["marketName"]
-            url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/commodity-price/lastweek?marketId="+str(market_id)+"&stateId="+str(state_id)+"&commodityId="+str(commid)+"&includeExcel=false"
-            data=requests.get(url).json()
-            item = data['data'][0]
+            market_id = mandi["id"]
+            state = mandi["state"]
+            state_id = state_id_map[state]
+            marketName = mandi["marketName"]
+            url = (
+                "https://api.agmarknet.gov.in/v1/prices-and-arrivals/commodity-price/lastweek?"
+                f"marketId={market_id}&stateId={state_id}&commodityId={commid}&includeExcel=false"
+            )
+            data = requests.get(url).json()
+            item = data["data"][0]
+            # remove first and last key
             keys = list(item.keys())[1:-1]
-            priceTrend=[]
+            priceTrend = []
             for k in keys:
-                price=item[k]
-                if isinstance(price, (int, float)):
-                    priceTrend.append({
-                        "date": k,
-                        "price": price
-                    })
-            foracomm[marketName]=priceTrend
-        res[comm]=foracomm
+                price = item[k]
+                # skip NA/NR/empty prices
+                if not isinstance(price, (int, float)):
+                    continue
+                priceTrend.append({
+                    "date": k,
+                    "price": price
+                })
+            if priceTrend:
+                foracomm[marketName] = priceTrend
+
+        if foracomm:
+            res[comm] = foracomm
+
     return jsonify(res)
