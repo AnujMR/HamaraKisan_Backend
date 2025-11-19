@@ -1892,6 +1892,7 @@ state_market_map={
         "Darwha APMC": 1337,
         "Daryapur APMC": 1638,
         "Deglur APMC": 563,
+        "Deoulgaon Raja APMC":1646,
         "Deulgaon Raja Balaji Agro Marketing Private Market APMC": 4008,
         "Devala APMC": 1895,
         "Devani APMC": 3455,
