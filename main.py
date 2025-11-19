@@ -307,8 +307,7 @@ def mainGraph(user_id):
 
     return jsonify(res)
 
-
-#dashboard bar graph
+#dashboard bar/line graphs
 @app.route('/dashboardgraphs/<user_id>',methods=["POST"])
 def getGraphs(user_id):
     doc_ref=db.collection("dashboard").document(user_id)
@@ -328,6 +327,50 @@ def getGraphs(user_id):
         for item in latest_10
     ]
     return jsonify({"line":line,"bar":bar})
+
+#pinnedMandi table
+@app.route("/pinnedmanditable/<user_id>",methods=["POST"])
+def pinnedmanditable(user_id):
+    body=request.get_json()
+    state=body["state"]
+    date=body["date"] #DD-MM-YYYY
+
+    # Convert DD-MM-YYYY → YYYY-MM-DD
+    day, month, year = date.split('-')
+    req_date = f"{year}-{month}-{day}"
+    state_id=state_id_map[state]
+    market_id=body["marketid"]
+    url = "https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/daily"
+
+    #DD/MM/YYYY
+    title_date = f"{day}/{month}/{year}"
+    payload = {
+        "date": req_date,
+        "State": [state_id],
+        "title": f"Market-wise, Commodity-wise Daily Report on {title_date}",
+        "marketIds": [market_id],
+        "includeExcel": False,
+        "stateIds": [state_id]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    data = response.json()
+    
+    data=data["states"][0]["markets"][0]["commodities"]
+    
+    # return jsonify(data)
+
+    res={}
+    for item in data:
+        comm = item["commodityName"]
+        prices = [entry["modalPrice"] for entry in item["data"] if isinstance(entry["modalPrice"], (int, float))]
+        if prices:
+            avg_price = sum(prices) / len(prices)
+            res[comm] = round(avg_price, 2)
+    return jsonify(res)
+
 
 @app.route("/top5mandis",methods=["POST"])
 def top5mandis():
