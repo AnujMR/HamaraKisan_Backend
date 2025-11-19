@@ -167,6 +167,7 @@ def unpin_mandi(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
 
+#image preprocessing
 def preprocess_image(img_path):
 
     image = Image.open(img_path).convert("RGB")
@@ -364,11 +365,17 @@ def pinnedmanditable(user_id):
 
     res={}
     for item in data:
-        comm = item["commodityName"]
-        prices = [entry["modalPrice"] for entry in item["data"] if isinstance(entry["modalPrice"], (int, float))]
-        if prices:
-            avg_price = sum(prices) / len(prices)
-            res[comm] = round(avg_price, 2)
+        comm_name = item["commodityName"]
+        entries = item["data"]
+        modal_prices = [x["modalPrice"] for x in entries if "modalPrice" in x]
+        if not modal_prices:
+            continue 
+        avg_price = sum(modal_prices) / len(modal_prices)
+        unit = entries[0].get("unitOfPrice", "")
+        res[comm_name] = {
+            "avg_price": round(avg_price, 2),
+            "unit": unit
+        }
     return jsonify(res)
 
 
