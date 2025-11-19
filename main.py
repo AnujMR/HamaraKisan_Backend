@@ -4,9 +4,7 @@ from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-# from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist,getpinnedMandiComp
 from datetime import datetime, timedelta
-# from store import commodity_map, state_map, districts
 import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
@@ -16,7 +14,9 @@ import random
 import requests
 from store import comm_id
 from google import genai
-from dotenv import load_dotenv
+from dotenv import load_dotenvs
+
+
 load_dotenv()
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
