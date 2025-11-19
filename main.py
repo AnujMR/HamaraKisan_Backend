@@ -4,9 +4,7 @@ from PIL import Image
 from flask import Flask, jsonify, request
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
-# from webscrapper import getTableData,getPriceTrend,getTopDistrict,getPriceTrendForDist,getpinnedMandiComp
 from datetime import datetime, timedelta
-# from store import commodity_map, state_map, districts
 import numpy as np
 import tensorflow as tf
 from flask_cors import CORS
@@ -14,10 +12,12 @@ import json
 import os
 import random
 import requests
-from store import comm_id, state_market_map
+from store import comm_id, state_market_map,state_id_map
 from google import genai
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenvs
+
+
+# load_dotenv()
 
 model = tf.keras.models.load_model("plant_disease_model.keras", compile=False)
 
@@ -26,58 +26,70 @@ with open("class_names.pkl", "rb") as f:
     class_names = pickle.load(f)
 
 app = Flask(__name__)
+
+#Cross origin resource sharing
 CORS(app)
 
 
 cred = credentials.Certificate("firebase_key.json")
-
 firebase_admin.initialize_app(cred)
 
-
+#firestore handle
 db=firestore.client()
 
 @app.route("/")
 def home():
     return "Hello, This is the backend for Hamara Kisan!"
 
-
+#get table data
 @app.route("/getTableData",methods=["POST"])
 def getTableData():
-    body=request.get_json()
-    stateName=body["state"]
-    comm=body["comm"]
-    date=body["date"]
-    group_id=comm_id[comm]["gid"]
-    commid=comm_id[comm]["cid"]
+    auth.verify_id_token(id_token)
+    id_token=request.json.get("token")
+    if not id_token:
+        return jsonify({"error": "Missing token"}), 400
+    try:
+        body=request.get_json()
+        stateName=body["state"]
+        comm=body["comm"]
+        date=body["date"]
+        group_id=comm_id[comm]["gid"]
+        commid=comm_id[comm]["cid"]
 
-    url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date=2025-11-12&commodityGroupId="+str(group_id)+"&commodityId="+str(commid)+"&includeExcel=false"
+        url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date=2025-11-12&commodityGroupId="+str(group_id)+"&commodityId="+str(commid)+"&includeExcel=false"
 
-    response=requests.get(url).json()
+        response=requests.get(url).json()
 
-    markets=[]
-    for state in response.get("states", []):
-            if state.get("stateName") == stateName:
-                markets=state.get("markets",[])
-    mandis=[]
-    for m in markets:
-        if not m.get("data"):
-            continue
-        d = m["data"][0] 
-        mandis.append({
-            "market_id": str(state_market_map[body["state"]][m["marketName"]]),
-            "market_name": m["marketName"],
-            "min_price": d["minimumPrice"],
-            "max_price": d["maximumPrice"],
-            "modal_price": d["modalPrice"],
-            "variety": d["variety"],
-            "grade": d["grade"],
-            "state":stateName,
-            "comm":comm,
-            "date":date
-        })
-    return {"mandis":mandis}
+        markets=[]
+        for state in response.get("states", []):
+                if state.get("stateName") == stateName:
+                    markets=state.get("markets",[])
+        mandis=[]
+        for m in markets:
+            if not m.get("data"):
+                continue
+            d = m["data"][0] 
+            mandis.append({
+                "market_id": str(state_market_map[body["state"]][m["marketName"]]),
+                "market_name": m["marketName"],
+                "min_price": d["minimumPrice"],
+                "max_price": d["maximumPrice"],
+                "modal_price": d["modalPrice"],
+                "variety": d["variety"],
+                "grade": d["grade"],
+                "state":stateName,
+                "comm":comm,
+                "date":date
+            })
+        return {"mandis":mandis}
+    except auth.ExpiredIdTokenError:
+        return jsonify({"error": "Token expired"}), 401
+    except auth.InvalidIdTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 401
 
-# pin a mandi (Tested Working)
+# pin a mandi
 @app.route("/pin_mandi/<user_id>", methods=["POST"])
 def pin_mandi(user_id):
     id_token=request.json.get("token")
@@ -123,6 +135,7 @@ def pin_mandi(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
 
+#unpin a mandi
 @app.route("/unpinMandi/<user_id>",methods=["POST"])
 def unpin_mandi(user_id):
     id_token=request.json.get("token")
@@ -134,7 +147,7 @@ def unpin_mandi(user_id):
         mandi_id=body["id"]
         doc_ref=db.collection("users").document(user_id)
         pinnedMandis=doc_ref.get().to_dict().get("pinnedMandis")
-        updated_pinnedMandis = [m for m in pinnedMandis if m.get("id") != mandi_id]
+        updated_pinnedMandis = [mandi for mandi in pinnedMandis if mandi.get("id") != mandi_id]
         doc_ref.update({
             "pinnedMandis": updated_pinnedMandis
         })
@@ -258,6 +271,7 @@ def addRecord(user_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 401
 
+#Delete Record
 @app.route("/deleteRecord/<user_id>",methods=["POST"])
 def deleteRecord(user_id):
     id_token=request.json.get("token")
@@ -285,3 +299,45 @@ def deleteRecord(user_id):
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
+    
+# Main graph trend for all the pinnedMandis for all the interested commodities
+@app.route("/maingraph/<user_id>", methods=["POST"])
+def mainGraph(user_id):
+    doc_ref = db.collection("users").document(user_id)
+    data = doc_ref.get().to_dict()
+    interested_comms = data.get("interestedCom")
+    pinned_mandis = data.get("pinnedMandis")
+    res = {}
+    for comm in interested_comms:
+        commid = comm_id[comm]["cid"]
+        foracomm = {}
+        for mandi in pinned_mandis:
+            market_id = mandi["id"]
+            state = mandi["state"]
+            state_id = state_id_map[state]
+            marketName = mandi["marketName"]
+            url = (
+                "https://api.agmarknet.gov.in/v1/prices-and-arrivals/commodity-price/lastweek?"
+                f"marketId={market_id}&stateId={state_id}&commodityId={commid}&includeExcel=false"
+            )
+            data = requests.get(url).json()
+            item = data["data"][0]
+            # remove first and last key
+            keys = list(item.keys())[1:-1]
+            priceTrend = []
+            for k in keys:
+                price = item[k]
+                # skip NA/NR/empty prices
+                if not isinstance(price, (int, float)):
+                    continue
+                priceTrend.append({
+                    "date": k,
+                    "price": price
+                })
+            if priceTrend:
+                foracomm[marketName] = priceTrend
+
+        if foracomm:
+            res[comm] = foracomm
+
+    return jsonify(res)
