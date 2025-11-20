@@ -97,7 +97,6 @@ def getTableData():
 # To pin a interested mandi
 @app.route("/pin_mandi/<user_id>", methods=["POST"])
 def pin_mandi(user_id):
-    auth.verify_id_token(id_token)
     id_token=request.json.get("token")
     if not id_token:
         return jsonify({"error": "Missing token"}), 400
