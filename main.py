@@ -58,8 +58,9 @@ def getTableData():
         date=body["date"]
         group_id=comm_id[comm]["gid"]
         commid=comm_id[comm]["cid"]
-        date=date.strftime("%Y-%m-%d")
-        url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date="+str(date)+"&commodityGroupId="+str(group_id)+"&commodityId="+str(commid)+"&includeExcel=false"
+        date_obj = datetime.strptime(date, "%d-%b-%Y")  
+        formatted_date = date_obj.strftime("%Y-%m-%d")
+        url="https://api.agmarknet.gov.in/v1/prices-and-arrivals/market-report/specific?date="+str(formatted_date)+"&commodityGroupId="+str(group_id)+"&commodityId="+str(commid)+"&includeExcel=false"
 
         response=requests.get(url).json()
 
