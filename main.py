@@ -14,6 +14,7 @@ import random
 import requests
 from store import comm_id, state_market_map,state_id_map
 from google import genai
+from collections import defaultdict
 # from dotenv import load_dotenvs
 # load_dotenv()
 
@@ -334,6 +335,7 @@ def mainGraph(user_id):
         table={}
         today = datetime.today()
         today=today.strftime("%Y-%m-%d")
+        print(today)
         for comm in interested_comms:
             commid = comm_id[comm]["cid"]
             foracomm = {}
@@ -349,9 +351,11 @@ def mainGraph(user_id):
                 )
                 data = requests.get(url).json()
                 item = data["data"][0]
+                print(item)
                 # remove first and last key
                 keys = list(item.keys())[1:-1]
                 priceTrend = []
+                # print(keys)
                 for k in keys:
                     price = item[k]
                     if k==today:
@@ -392,11 +396,16 @@ def getGraphs(user_id):
             total = entry['total']
             bar[comm] = bar.get(comm, 0) + total
         latest_10 = sorted_data[:10]
-        line= [{
-            "commodity": item["commodity"],
-            "total": item["total"],
-            "date": strip_time(item["date"])}
-            for item in latest_10
+        daily_totals = defaultdict(int)
+        for item in latest_10:
+            date = strip_time(item["date"])
+            daily_totals[date] += item["total"]
+        line = [
+            {
+                "date": date,
+                "total": total
+            }
+            for date, total in daily_totals.items()
         ]
         return jsonify({"line":line,"bar":bar})
     except auth.ExpiredIdTokenError:
