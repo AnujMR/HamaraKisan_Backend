@@ -74,18 +74,19 @@ def getTableData():
             if not m.get("data"):
                 continue
             d = m["data"][0] 
-            mandis.append({
-                "market_id": str(state_market_map[body["state"]][m["marketName"]]),
-                "market_name": m["marketName"],
-                "min_price": d["minimumPrice"],
-                "max_price": d["maximumPrice"],
-                "modal_price": d["modalPrice"],
-                "variety": d["variety"],
-                "grade": d["grade"],
-                "state":stateName,
-                "comm":comm,
-                "date":date
-            })
+            if m["marketName"] in state_market_map[stateName]:
+                mandis.append({
+                    "market_id": str(state_market_map[body["state"]][m["marketName"]]),
+                    "market_name": m["marketName"],
+                    "min_price": d["minimumPrice"],
+                    "max_price": d["maximumPrice"],
+                    "modal_price": d["modalPrice"],
+                    "variety": d["variety"],
+                    "grade": d["grade"],
+                    "state":stateName,
+                    "comm":comm,
+                    "date":date
+                })
         return {"mandis":mandis}
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
@@ -330,9 +331,12 @@ def mainGraph(user_id):
         interested_comms = data.get("interestedCom")
         pinned_mandis = data.get("pinnedMandis")
         res = {}
+        table={}
+        today = datetime.today()
         for comm in interested_comms:
             commid = comm_id[comm]["cid"]
             foracomm = {}
+            manditable={}
             for mandi in pinned_mandis:
                 market_id = mandi["id"]
                 state = mandi["state"]
@@ -349,17 +353,19 @@ def mainGraph(user_id):
                 priceTrend = []
                 for k in keys:
                     price = item[k]
+                    if k==today:
+                            manditable[mandi]=price
                     # skip NA/NR/empty prices
                     if not isinstance(price, (int, float)):
                         continue
                     priceTrend.append(price)
                 if priceTrend:
                     foracomm[marketName] = round(sum(priceTrend)/len(priceTrend),2)
-
+            table[comm]=manditable
             if foracomm:
                 res[comm] = foracomm
 
-        return jsonify(res)
+        return jsonify({"graph":res,"table":table})
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
