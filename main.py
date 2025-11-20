@@ -286,12 +286,12 @@ def deleteRecord(user_id):
         print(data)
         updatedData = [m for m in data if m.get("index") != index]
         doc_ref.update({
-            "pinnedMandis": updatedData
+            "data": updatedData
         })
         return jsonify({
             "success": True,
             "message": "Updated records!",
-            "pinnedMandis": updatedData
+            "data": updatedData
         }), 200
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
