@@ -73,18 +73,19 @@ def getTableData():
             if not m.get("data"):
                 continue
             d = m["data"][0] 
-            mandis.append({
-                "market_id": str(state_market_map[body["state"]][m["marketName"]]),
-                "market_name": m["marketName"],
-                "min_price": d["minimumPrice"],
-                "max_price": d["maximumPrice"],
-                "modal_price": d["modalPrice"],
-                "variety": d["variety"],
-                "grade": d["grade"],
-                "state":stateName,
-                "comm":comm,
-                "date":date
-            })
+            if m["marketName"] in state_market_map[stateName]:
+                mandis.append({
+                    "market_id": str(state_market_map[body["state"]][m["marketName"]]),
+                    "market_name": m["marketName"],
+                    "min_price": d["minimumPrice"],
+                    "max_price": d["maximumPrice"],
+                    "modal_price": d["modalPrice"],
+                    "variety": d["variety"],
+                    "grade": d["grade"],
+                    "state":stateName,
+                    "comm":comm,
+                    "date":date
+                })
         return {"mandis":mandis}
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
@@ -501,4 +502,3 @@ def top5mandis():
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
-
