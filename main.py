@@ -333,6 +333,7 @@ def mainGraph(user_id):
         res = {}
         table={}
         today = datetime.today()
+        today=today.strftime("%Y-%m-%d")
         for comm in interested_comms:
             commid = comm_id[comm]["cid"]
             foracomm = {}
