@@ -353,12 +353,9 @@ def mainGraph(user_id):
                     # skip NA/NR/empty prices
                     if not isinstance(price, (int, float)):
                         continue
-                    priceTrend.append({
-                        "date": k,
-                        "price": price
-                    })
+                    priceTrend.append(price)
                 if priceTrend:
-                    foracomm[marketName] = priceTrend
+                    foracomm[marketName] = round(sum(priceTrend)/len(priceTrend),2)
 
             if foracomm:
                 res[comm] = foracomm
@@ -462,7 +459,6 @@ def pinnedmanditable(user_id):
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
-
 
 #homepage graphs
 @app.route("/homepagegraphs",methods=["POST"])
