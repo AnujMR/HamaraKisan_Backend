@@ -292,9 +292,12 @@ def mainGraph(user_id):
         interested_comms = data.get("interestedCom")
         pinned_mandis = data.get("pinnedMandis")
         res = {}
+        table={}
+        today = datetime.today()
         for comm in interested_comms:
             commid = comm_id[comm]["cid"]
             foracomm = {}
+            manditable={}
             for mandi in pinned_mandis:
                 market_id = mandi["id"]
                 state = mandi["state"]
@@ -311,17 +314,19 @@ def mainGraph(user_id):
                 priceTrend = []
                 for k in keys:
                     price = item[k]
+                    if k==today:
+                            manditable[mandi]=price
                     # skip NA/NR/empty prices
                     if not isinstance(price, (int, float)):
                         continue
                     priceTrend.append(price)
                 if priceTrend:
                     foracomm[marketName] = round(sum(priceTrend)/len(priceTrend),2)
-
+            table[comm]=manditable
             if foracomm:
                 res[comm] = foracomm
 
-        return jsonify(res)
+        return jsonify({"graph":res,"table":table})
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
@@ -496,3 +501,4 @@ def top5mandis():
         return jsonify({"error": "Invalid token"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 401
+
