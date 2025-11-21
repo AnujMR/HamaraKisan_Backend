@@ -467,7 +467,15 @@ def pinnedmanditable(user_id):
                 "avg_price": round(avg_price, 2),
                 "unit": unit
             }
-        return jsonify(res)
+        top5 = sorted(res.items(), key=lambda x: x[1]["avg_price"], reverse=True)[:5]
+
+        top5 = [
+            {"commodity": name, "avg_price": info["avg_price"]}
+            for name, info in top5
+        ]
+
+
+        return jsonify({"table":res,"top5":top5})
     except auth.ExpiredIdTokenError:
         return jsonify({"error": "Token expired"}), 401
     except auth.InvalidIdTokenError:
